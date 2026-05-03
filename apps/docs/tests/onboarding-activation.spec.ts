@@ -33,6 +33,62 @@ test.describe("Onboarding activation example", () => {
     ).toHaveText("Skip for now");
   });
 
+  test("surfaces the onboarding recipe family and links to adjacent activation scenarios", async ({
+    page,
+  }) => {
+    const family = page.getByTestId("onboarding-scenario-links");
+
+    await expect(family).toBeVisible();
+    await expect(family.getByRole("link", { name: /Workspace launch/i })).toBeVisible();
+    await expect(family.getByRole("link", { name: /Invite teammates/i })).toBeVisible();
+    await expect(family.getByRole("link", { name: /Connect integration/i })).toBeVisible();
+
+    await family.getByRole("link", { name: /Invite teammates/i }).click();
+
+    await expect(page).toHaveURL(/\/recipes\/onboarding-members-state$/);
+    await expect(page.locator("h1")).toHaveText("Invite your first teammates");
+  });
+
+  test("renders recipe-level members and integration demos with recipe-default links", async ({
+    page,
+  }) => {
+    const membersDemo = page.getByTestId("onboarding-members-demo");
+    const integrationDemo = page.getByTestId("onboarding-integration-demo");
+
+    await expect(membersDemo).toBeVisible();
+    await expect(
+      membersDemo.getByRole("heading", { name: "Invite teammates as the next onboarding step" }),
+    ).toBeVisible();
+    await expect(
+      membersDemo.getByRole("button", { name: "Invite teammates" }),
+    ).toBeVisible();
+    await expect(
+      membersDemo.getByRole("button", { name: "Copy invite link" }),
+    ).toBeVisible();
+
+    await expect(integrationDemo).toBeVisible();
+    await expect(
+      integrationDemo.getByRole("heading", {
+        name: "Connect the first integration before work starts",
+      }),
+    ).toBeVisible();
+    await expect(
+      integrationDemo.getByRole("button", { name: "Connect integration" }),
+    ).toBeVisible();
+    await expect(
+      integrationDemo.getByRole("link", { name: "View setup guide" }),
+    ).toBeVisible();
+
+    await membersDemo.getByRole("link", { name: "Review recipe defaults" }).click();
+    await expect(page).toHaveURL(/\/recipes\/onboarding-members-state$/);
+    await expect(page.locator("h1")).toHaveText("Invite your first teammates");
+
+    await page.goto("/examples/onboarding-activation");
+    await integrationDemo.getByRole("link", { name: "Review recipe defaults" }).click();
+    await expect(page).toHaveURL(/\/recipes\/onboarding-integration-state$/);
+    await expect(page.locator("h1")).toHaveText("Connect your first integration");
+  });
+
   test("lets the host page complete setup, hide the hero, and reopen it later", async ({
     page,
   }) => {
@@ -85,7 +141,7 @@ test.describe("Onboarding activation example", () => {
     await expect(
       page.getByRole("heading", { name: "Rich onboarding media and action areas" }),
     ).toBeVisible();
-    await expect(page.getByText("#media")).toBeVisible();
-    await expect(page.getByText("#actions")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "#media" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "#actions" })).toBeVisible();
   });
 });

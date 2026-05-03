@@ -444,6 +444,7 @@ z-index:1}
 justify-content:space-between;
 gap:16px;
 align-items:flex-start}
+.sk-onboarding-media__header--default{align-items:flex-end}
 .sk-onboarding-media__eyebrow{margin:0;
 font-size:.72rem;
 font-weight:700;
@@ -472,6 +473,8 @@ padding:18px;
 border-radius:24px;
 background:linear-gradient(180deg,#0b1220a3,#11182759);
 border:1px solid #ffffff12}
+.sk-onboarding-media__window--default{grid-template-columns:88px minmax(0,1fr);
+min-height:180px}
 .sk-onboarding-media__rail{display:grid;
 align-content:start;
 gap:10px;
@@ -479,14 +482,36 @@ padding:14px;
 border-radius:18px;
 background:#0f172a45;
 border:1px solid #ffffff12}
-.sk-onboarding-media__rail-item{height:12px;
+.sk-onboarding-media__rail--default{gap:12px;
+padding:12px}
+.sk-onboarding-media__rail-entry{display:grid;
+gap:8px}
+.sk-onboarding-media__rail--default .sk-onboarding-media__rail-entry{grid-template-columns:12px minmax(0,1fr);
+align-items:center;
+gap:10px}
+.sk-onboarding-media__rail-dot{width:8px;
+height:8px;
+border-radius:50%;
+background:#cbd5e1a6;
+box-shadow:0 0 0 3px #ffffff0f}
+.sk-onboarding-media__rail-entry.is-active .sk-onboarding-media__rail-dot{background:#ffffff}
+.sk-onboarding-media__rail-label{display:block;
+font-size:.84rem;
+line-height:1.3;
+color:#f8fafccc;
+word-break:break-word}
+.sk-onboarding-media__rail-bar{display:block;
+height:12px;
 border-radius:var(--sk-radius-pill);
 background:#ffffff1c}
-.sk-onboarding-media__rail-item.is-strong{width:72%;
+.sk-onboarding-media__rail-entry.is-active .sk-onboarding-media__rail-label{color:#fff;
+font-weight:600}
+.sk-onboarding-media__rail-bar.is-strong{width:72%;
 background:#dbeafead}
 .sk-onboarding-media__canvas{display:grid;
 gap:14px;
 align-content:start}
+.sk-onboarding-media__canvas--default{gap:12px}
 .sk-onboarding-media__toolbar{display:flex;
 flex-wrap:wrap;
 gap:10px}
@@ -504,6 +529,7 @@ color:#fff}
 .sk-onboarding-media__stats{display:grid;
 grid-template-columns:repeat(2,minmax(0,1fr));
 gap:12px}
+.sk-onboarding-media__stats--default{gap:10px}
 .sk-onboarding-media__stat{padding:16px;
 border-radius:18px;
 background:#ffffff10;
@@ -521,6 +547,8 @@ padding:16px;
 border-radius:18px;
 background:#0f172a36;
 border:1px solid #ffffff12}
+.sk-onboarding-media__feed--default{gap:8px;
+padding:14px}
 .sk-onboarding-media__feed-item{display:grid;
 gap:6px}
 .sk-onboarding-media__feed-item span{display:block;

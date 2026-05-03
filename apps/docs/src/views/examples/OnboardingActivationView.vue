@@ -65,6 +65,24 @@ const launchMetrics = computed(() => [
   },
 ]);
 
+const onboardingScenarioLinks = [
+  {
+    label: "Workspace launch",
+    detail: "Start with the full guided hero when the team has not entered the workspace yet.",
+    href: "/recipes/onboarding-workspace-state",
+  },
+  {
+    label: "Invite teammates",
+    detail: "Shift the message toward collaborator setup once the workspace exists.",
+    href: "/recipes/onboarding-members-state",
+  },
+  {
+    label: "Connect integration",
+    detail: "Use onboarding again when first value depends on connecting a source system.",
+    href: "/recipes/onboarding-integration-state",
+  },
+] as const;
+
 const onboardingNotes = computed(() => [
   "Use `#media` for richer mockups, GIFs, video, or screenshot rails instead of the small default onboarding figure.",
   "Use `#actions` when the default two-button model is not enough for tutorial entry points, demo data, and a low-priority skip affordance.",
@@ -110,6 +128,35 @@ const onboardingNotes = computed(() => [
           </article>
         </div>
       </div>
+
+      <section class="demo-surface demo-surface--span-2">
+        <div class="demo-surface__header">
+          <div>
+            <p class="demo-surface__eyebrow">Recipe family</p>
+            <h2>Use one onboarding entry across multiple first-run moments</h2>
+            <p>
+              `OnboardingState` stays as the same public entry, while the
+              recipe family shifts the message from workspace launch to team
+              invite and initial integration setup.
+            </p>
+          </div>
+        </div>
+
+        <div class="related-grid" data-testid="onboarding-scenario-links">
+          <RouterLink
+            v-for="scenario in onboardingScenarioLinks"
+            :key="scenario.href"
+            class="editorial-link"
+            :to="scenario.href"
+          >
+            <span class="editorial-link__index">Onboarding</span>
+            <div>
+              <h3>{{ scenario.label }}</h3>
+              <p>{{ scenario.detail }}</p>
+            </div>
+          </RouterLink>
+        </div>
+      </section>
 
       <article
         class="demo-surface demo-surface--span-2"
@@ -276,6 +323,198 @@ const onboardingNotes = computed(() => [
           <li v-for="item in onboardingNotes" :key="item">{{ item }}</li>
         </ul>
       </article>
+
+      <section class="demo-surface demo-surface--span-2" data-testid="onboarding-members-demo">
+        <div class="demo-surface__header">
+          <div>
+            <p class="demo-surface__eyebrow">Recipe</p>
+            <h2>Invite teammates as the next onboarding step</h2>
+            <p>
+              Reuse the same `OnboardingState` entry after workspace creation to
+              shift into collaborator setup, role ownership, and shared launch
+              accountability.
+            </p>
+          </div>
+          <span class="demo-badge">onboarding-members</span>
+        </div>
+
+        <OnboardingState
+          layout="page"
+          density="spacious"
+          title="Invite your first teammates"
+          description="Bring owners, reviewers, and operators into the workspace so setup can move from a solo draft into a shared launch plan."
+          :primary-action="{ label: 'Invite teammates' }"
+          :secondary-action="{ label: 'Copy invite link' }"
+        >
+          <template #media>
+            <div class="sk-onboarding-media">
+              <div class="sk-onboarding-media__header">
+                <div>
+                  <p class="sk-onboarding-media__eyebrow">Collaboration setup</p>
+                  <strong class="sk-onboarding-media__title">Starter team roster</strong>
+                </div>
+                <span class="sk-onboarding-media__chip">Members recipe</span>
+              </div>
+
+              <div class="sk-onboarding-media__window">
+                <div class="sk-onboarding-media__rail">
+                  <span class="sk-onboarding-media__rail-item is-strong" />
+                  <span class="sk-onboarding-media__rail-item" />
+                  <span class="sk-onboarding-media__rail-item" />
+                </div>
+
+                <div class="sk-onboarding-media__canvas">
+                  <div class="sk-onboarding-media__toolbar">
+                    <span class="is-active">Owners</span>
+                    <span>Reviewers</span>
+                    <span>Operators</span>
+                  </div>
+
+                  <div class="sk-onboarding-media__stats">
+                    <div class="sk-onboarding-media__stat">
+                      <small>Invite roles</small>
+                      <strong>03</strong>
+                    </div>
+                    <div class="sk-onboarding-media__stat">
+                      <small>Launch owner</small>
+                      <strong>Assigned</strong>
+                    </div>
+                  </div>
+
+                  <div class="sk-onboarding-media__feed">
+                    <div class="sk-onboarding-media__feed-item">
+                      <span />
+                      <span />
+                    </div>
+                    <div class="sk-onboarding-media__feed-item">
+                      <span />
+                      <span />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <template #actions>
+            <div class="sk-onboarding-actions">
+              <div class="sk-onboarding-actions__group">
+                <button class="sk-shell__action" type="button">Invite teammates</button>
+                <button class="sk-shell__action is-secondary" type="button">Copy invite link</button>
+              </div>
+
+              <div class="sk-onboarding-actions__secondary">
+                <RouterLink class="sk-shell__action is-secondary" to="/recipes/onboarding-members-state">
+                  Review recipe defaults
+                </RouterLink>
+                <RouterLink class="sk-shell__action is-secondary" to="/examples/admin-empty-states">
+                  Compare post-setup empty state
+                </RouterLink>
+              </div>
+            </div>
+          </template>
+        </OnboardingState>
+      </section>
+
+      <section
+        class="demo-surface demo-surface--span-2"
+        data-testid="onboarding-integration-demo"
+      >
+        <div class="demo-surface__header">
+          <div>
+            <p class="demo-surface__eyebrow">Recipe</p>
+            <h2>Connect the first integration before work starts</h2>
+            <p>
+              Use the same onboarding shell again when first value depends on
+              syncing a source system, importing context, or wiring the product
+              into an existing workflow.
+            </p>
+          </div>
+          <span class="demo-badge">onboarding-integration</span>
+        </div>
+
+        <OnboardingState
+          layout="page"
+          density="spacious"
+          title="Connect your first integration"
+          description="Link the tools your team already uses so projects, approvals, and updates arrive in the workspace before the first handoff."
+          :primary-action="{ label: 'Connect integration' }"
+          :secondary-action="{ label: 'View setup guide' }"
+        >
+          <template #media>
+            <div class="sk-onboarding-media">
+              <div class="sk-onboarding-media__header">
+                <div>
+                  <p class="sk-onboarding-media__eyebrow">System setup</p>
+                  <strong class="sk-onboarding-media__title">Source sync checklist</strong>
+                </div>
+                <span class="sk-onboarding-media__chip">Integration recipe</span>
+              </div>
+
+              <div class="sk-onboarding-media__window">
+                <div class="sk-onboarding-media__rail">
+                  <span class="sk-onboarding-media__rail-item is-strong" />
+                  <span class="sk-onboarding-media__rail-item" />
+                  <span class="sk-onboarding-media__rail-item" />
+                </div>
+
+                <div class="sk-onboarding-media__canvas">
+                  <div class="sk-onboarding-media__toolbar">
+                    <span class="is-active">Source</span>
+                    <span>Sync</span>
+                    <span>Verify</span>
+                  </div>
+
+                  <div class="sk-onboarding-media__stats">
+                    <div class="sk-onboarding-media__stat">
+                      <small>Connected tools</small>
+                      <strong>01</strong>
+                    </div>
+                    <div class="sk-onboarding-media__stat">
+                      <small>Import status</small>
+                      <strong>Ready</strong>
+                    </div>
+                  </div>
+
+                  <div class="sk-onboarding-media__feed">
+                    <div class="sk-onboarding-media__feed-item">
+                      <span />
+                      <span />
+                    </div>
+                    <div class="sk-onboarding-media__feed-item">
+                      <span />
+                      <span />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <template #actions>
+            <div class="sk-onboarding-actions">
+              <div class="sk-onboarding-actions__group">
+                <button class="sk-shell__action" type="button">Connect integration</button>
+                <RouterLink class="sk-shell__action is-secondary" to="/docs/installation">
+                  View setup guide
+                </RouterLink>
+              </div>
+
+              <div class="sk-onboarding-actions__secondary">
+                <RouterLink
+                  class="sk-shell__action is-secondary"
+                  to="/recipes/onboarding-integration-state"
+                >
+                  Review recipe defaults
+                </RouterLink>
+                <RouterLink class="sk-shell__action is-secondary" to="/recipes/onboarding-members-state">
+                  Back to teammate invite recipe
+                </RouterLink>
+              </div>
+            </div>
+          </template>
+        </OnboardingState>
+      </section>
     </section>
   </section>
 </template>

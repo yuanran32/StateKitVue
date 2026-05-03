@@ -30,7 +30,7 @@ StateKit currently exposes seven public category-first components:
 - `UpgradeState`
 - `SuccessState`
 
-Those public entries are backed by 19 preset recipes across the same seven categories. Older scenario-specific exports such as `EmptySearchState` and `OfflineErrorState` still exist as deprecated compatibility exports, so existing integrations can migrate gradually.
+Those public entries are backed by 21 preset recipes across the same seven categories. Older scenario-specific exports such as `EmptySearchState` and `OfflineErrorState` still exist as deprecated compatibility exports, so existing integrations can migrate gradually.
 
 Onboarding now ships as its own category through `OnboardingState`. The older `FirstProjectState` preset still exists, but it now reads as a post-setup empty-state bridge rather than the primary onboarding surface.
 

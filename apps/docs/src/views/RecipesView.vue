@@ -54,7 +54,7 @@ const launchRecipeCount = computed(
         <p class="eyebrow">Recipe Index</p>
         <h1>Preset recipes by state category</h1>
         <p>
-          Browse all 19 preset recipes, compare adjacent moments inside the same
+          Browse all {{ allRecipeDocs.length }} preset recipes, compare adjacent moments inside the same
           category, and see which public category entry each recipe resolves
           through.
         </p>

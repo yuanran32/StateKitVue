@@ -101,6 +101,23 @@ const searchPrimaryAction = computed(() =>
     : { label: "Filters cleared", disabled: true },
 );
 
+const onboardingRecipes = [
+  {
+    title: "Invite the first reviewers",
+    description:
+      "Move from solo setup into a shared launch plan once the workspace exists and the next activation step is adding teammates.",
+    action: "Invite teammates",
+    helper: "Best when the product only starts to feel real after owners and reviewers join the workspace.",
+  },
+  {
+    title: "Connect the source system",
+    description:
+      "Keep onboarding active until the first integration is connected and the workspace can begin receiving real project updates.",
+    action: "Connect integration",
+    helper: "Useful for products where first value depends on syncing the tools a team already uses.",
+  },
+] as const;
+
 const summaryCards = computed(() => [
   {
     label: "Direction",
@@ -381,6 +398,39 @@ const summaryCards = computed(() => [
         <div class="example-band__intro">
           <div class="example-band__meta">
             <p class="example-band__index">Example 03</p>
+            <span class="example-band__tag">OnboardingState recipes</span>
+          </div>
+          <h2>One onboarding entry, multiple activation steps</h2>
+          <p>
+            The same `OnboardingState` surface can shift from workspace launch
+            into teammate invite and integration setup without introducing a new
+            stateful API.
+          </p>
+        </div>
+
+        <div class="example-band__stage example-band__stage--onboarding">
+          <div class="related-grid">
+            <article
+              v-for="recipe in onboardingRecipes"
+              :key="recipe.title"
+              class="detail-section detail-section--doc"
+            >
+              <p class="example-band__index">Onboarding recipe</p>
+              <h3>{{ recipe.title }}</h3>
+              <p>{{ recipe.description }}</p>
+              <div class="button-row">
+                <span class="button-link">{{ recipe.action }}</span>
+              </div>
+              <p class="example-band__footnote">{{ recipe.helper }}</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="example-band">
+        <div class="example-band__intro">
+          <div class="example-band__meta">
+            <p class="example-band__index">Example 04</p>
             <span class="example-band__tag">LoadingState</span>
           </div>
           <h2>Loading state as a quiet queue marker</h2>
@@ -415,7 +465,7 @@ const summaryCards = computed(() => [
       <section class="example-band">
         <div class="example-band__intro">
           <div class="example-band__meta">
-            <p class="example-band__index">Example 04</p>
+            <p class="example-band__index">Example 05</p>
             <span class="example-band__tag">PermissionState</span>
           </div>
           <h2>Permission state with one clear next step</h2>

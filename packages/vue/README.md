@@ -55,7 +55,7 @@ async function handleClearFilters() {
 ## What It Includes
 
 - Seven category-first public components: `EmptyState`, `OnboardingState`, `LoadingState`, `ErrorState`, `PermissionState`, `UpgradeState`, and `SuccessState`
-- 19 preset recipes and compatibility exports across the same seven categories
+- 21 preset recipes and compatibility exports across the same seven categories
 - Shared prop surface for `title`, `description`, `tone`, `density`, `layout`, `primaryAction`, and `secondaryAction`
 - Built-in stylesheet entry at `@statekit-vue/vue/styles.css`
 - Re-exports from `@statekit-vue/shared` for recipe metadata and shared types

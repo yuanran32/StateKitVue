@@ -64,4 +64,19 @@ describe("stateBlockMeta", () => {
       expect(stateBlockMetaById[id].priority).toBe("launch");
     }
   });
+
+  it("keeps onboarding as one category entry backed by the activation recipe set", () => {
+    const onboardingRecipes = stateBlockMetaList.filter(
+      (meta) => meta.category === "onboarding",
+    );
+
+    expect(onboardingRecipes.map((meta) => meta.id)).toEqual([
+      "onboarding-workspace",
+      "onboarding-members",
+      "onboarding-integration",
+    ]);
+    expect(
+      onboardingRecipes.every((meta) => meta.componentName === "OnboardingState"),
+    ).toBe(true);
+  });
 });

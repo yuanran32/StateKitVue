@@ -93,7 +93,7 @@ const featuredRecipes = computed(() => featuredRecipeDocs.slice(0, 4));
             <p>Shared metadata</p>
             <strong>Category-first components</strong>
             <span>
-              Seven public entries backed by 19 preset recipes across empty,
+              Seven public entries backed by {{ allRecipeDocs.length }} preset recipes across empty,
               onboarding, loading, error, permission, upgrade, and success.
             </span>
           </div>

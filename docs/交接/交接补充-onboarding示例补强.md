@@ -94,9 +94,9 @@
 
 并且 docs 示例也已经补到能展示这三者的差异。
 
-但是从“发版口径 / 文档口径 / 人工 QA 是否全部收口”看，这条还不能完全打勾，因为还剩：
+但是从“文档口径 / 人工 QA 是否全部收口”看，这条还不能完全打勾，因为还剩：
 
-1. 最终版本号与 release framing 没定
+1. `0.3.0` release framing 已定，但还需要完整发布链路验证
 2. README / 首页对 onboarding family 的强调还没有示例页这么强
 3. 还没有补围绕 onboarding 的人工 QA 结论
 
@@ -104,15 +104,16 @@
 
 - recipe 本体已补齐
 - docs recipe-level example 已补强
-- 剩余工作转为 release framing + 文档同步 + 人工 QA
+- 剩余工作转为发布验证 + 文档同步 + 人工 QA
 
 # 现在还值得继续做的事
 
 ## P0 / 最靠近发布的事情
 
-1. **确定 onboarding category 的下一次版本号口径**
-   - 当前更合理的默认判断仍然是按 `minor`（`0.3.0`）处理
+1. **完成 `0.3.0` 发布验证**
+   - onboarding category 已按 `minor`（`0.3.0`）处理
    - 原因不只是多了几个 recipe，而是已经新增独立 category-first 入口 `OnboardingState`
+   - 下一步是跑完整验证链路，再发布 `@statekit-vue/shared@0.3.0` 和 `@statekit-vue/vue@0.3.0`
 
 2. **补一次围绕 onboarding 的人工 QA**
    重点还是这些页面：
@@ -162,4 +163,4 @@
 
 # 一句话总结
 
-`OnboardingState` 现在已经不只是一个试点 hero，而是一个已经具备 3 个 recipe、并且在 docs 中能真实展示跨 onboarding 节点复用能力的 category-first 入口；离发版还差口径、QA 和最终文档收口。
+`OnboardingState` 现在已经不只是一个试点 hero，而是一个已经具备 3 个 recipe、并且在 docs 中能真实展示跨 onboarding 节点复用能力的 category-first 入口；当前已切到 `0.3.0` 发版准备，离发布还差完整验证、QA 和最终文档收口。

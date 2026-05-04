@@ -1,6 +1,6 @@
 # StateKit TODO
 
-这份清单只保留当前还需要推进的事项。现在的重点已经不是 `0.2.1` 发版收口，而是：
+这份清单只保留当前还需要推进的事项。现在的重点已经从确认版本口径转为 `0.3.0` 发版验证与发布：
 
 1. 把 `onboarding` category pilot 收到可发布状态。
 2. 继续增加高价值场景组件 / preset recipes，让覆盖率真正往前走。
@@ -8,15 +8,15 @@
 
 ## P0 近期必须收口
 
-- [ ] 为 `onboarding` category pilot 确定下一次版本号与发布口径
-  目标：确认这次是按 patch 还是 minor 处理，并把原因写清楚。
-  当前更合理的默认倾向：把"新增独立 category-first 入口 `OnboardingState`"视为公开 API 扩展，更偏向按 minor 版本（`0.3.0`）处理。
+- [x] 为 `onboarding` category pilot 确定下一次版本号与发布口径
+  结论：按 minor 版本 `0.3.0` 处理。
+  原因：新增独立 category-first 入口 `OnboardingState`，并把 onboarding recipe family 从 1 个试点扩到 3 个可展示场景，属于公开能力扩展，不再按 patch 尾声处理。
   需要同步的文件：`README.md`、`README.zh-CN.md`、`packages/vue/README.md`、`docs/statekit-ai-handoff-brief.md`、`docs/statekit-launch-checklist.md`、`docs/交接/CHANGELOG.md`、`docs/交接/剩餘部分.md`。
   完成标准：对外文档、交接文档和最终版本号口径一致，不再出现"代码里已经有 onboarding，但发布说明还像 0.2.1 patch 尾声"的割裂表述。
 
 - [ ] 补一次围绕 `onboarding` 的人工 QA
   目标：确认新增的第 7 类状态在 docs 和 example 里是"语义更清楚"，而不是只是多了一个名字。
-  重点页面：`/`、`/recipes`、`/recipes/onboarding-workspace-state`、`/examples/onboarding-activation`、`/examples/admin-empty-states`、`examples/vite-vue-admin`。
+  重点页面：`/`、`/recipes`、`/recipes/onboarding-workspace-state`、`/recipes/onboarding-members-state`、`/recipes/onboarding-integration-state`、`/examples/onboarding-activation`、`/examples/admin-empty-states`、`examples/vite-vue-admin`。
   重点宽度：`1700`、`1440`、`1280`、`1160`、`1000`、`760`。
   检查点：`OnboardingState` 的图形、标题节奏、CTA 层级、移动端按钮堆叠、以及它和 `EmptyState` / `first-project` 的语义边界是否足够清楚。
   完成标准：从首页到详情页到示例页，用户能直观看出"onboarding 不是 generic empty state"。
@@ -36,12 +36,9 @@
 
 ## P1 下一阶段最值得推进
 
-- [ ] 把 `onboarding` 从 1 个试点 recipe 扩成最小闭环
-  当前只有 `onboarding-workspace`，语义还不够完整。
-  建议下一批至少再补 2 个高信号 onboarding recipes：
-  1. 邀请首位成员 / 邀请协作者
-  2. 完成初始连接或初始配置
-  完成标准：`OnboardingState` 不再只对应"创建 workspace"这一个瞬间，而能覆盖 first-run 激活链路里最常见的几个节点。
+- [x] 把 `onboarding` 从 1 个试点 recipe 扩成最小闭环
+  已完成：当前已有 `onboarding-workspace`、`onboarding-members`、`onboarding-integration` 三个 recipe。
+  docs 示例页已补强 recipe-level 展示和跳转覆盖，`OnboardingState` 不再只对应"创建 workspace"这一个瞬间，而能覆盖 first-run 激活链路里最常见的几个节点。
 
 - [ ] 先做"场景缺口矩阵"，再决定下一批新增组件
   目标：避免凭感觉一直加组件名，最后把 API 做散。

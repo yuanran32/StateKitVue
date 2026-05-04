@@ -1,10 +1,6 @@
 <script setup lang="ts">
-/**
- * 推荐给业务侧直接使用的 onboarding 统一入口。
- * 它表达的是“首次进入产品，需要完成启动动作”的语义，
- * 不再把 first-run 激活场景继续混在通用 empty state 里。
- */
-import type { BaseStateProps } from "@statekit-vue/shared";
+import { computed } from "vue";
+import { stateBlockMetaById, type BaseStateProps } from "@statekit-vue/shared";
 import StateBlockShell from "../../base/StateBlockShell.vue";
 import { useMergedStateProps } from "../../lib/merge-state-props";
 import type { PresetStateBlockProps } from "../../types";
@@ -15,20 +11,12 @@ const slots = defineSlots<{
   actions?: () => unknown;
 }>();
 
-// 这组默认值代表 onboarding 的推荐起点：先完成第一步激活，再进入真实内容流。
 const defaultProps: BaseStateProps = {
-  title: "Welcome to your launch workspace",
-  description:
-    "Bring projects, approvals, and teammates into one guided flow so the team can start shipping without rebuilding the basics.",
-  tone: "brand",
-  density: "spacious",
-  layout: "page",
-  primaryAction: { label: "Start guided setup" },
-  secondaryAction: { label: "Watch quick walkthrough" },
+  ...stateBlockMetaById["onboarding-workspace"].defaults,
 };
 
-// 调用方只覆盖自己的产品文案和动作，其余视觉结构继续沿用 onboarding 默认语义。
 const mergedProps = useMergedStateProps(props, defaultProps);
+const hasCustomMedia = computed(() => Boolean(slots.media));
 </script>
 
 <template>
@@ -38,8 +26,110 @@ const mergedProps = useMergedStateProps(props, defaultProps);
         <slot name="media" />
       </template>
 
+      <template v-else #media>
+        <div class="sk-onboarding-media sk-onboarding-media--default" data-testid="onboarding-default-media">
+          <div class="sk-onboarding-media__header sk-onboarding-media__header--default">
+            <div>
+              <p class="sk-onboarding-media__eyebrow">Launch path</p>
+              <strong class="sk-onboarding-media__title">Workspace activation plan</strong>
+            </div>
+          </div>
+
+          <div class="sk-onboarding-media__window sk-onboarding-media__window--default">
+            <div class="sk-onboarding-media__rail sk-onboarding-media__rail--default">
+              <div class="sk-onboarding-media__rail-entry is-active">
+                <span class="sk-onboarding-media__rail-dot" />
+                <span class="sk-onboarding-media__rail-bar is-strong" />
+              </div>
+              <div class="sk-onboarding-media__rail-entry">
+                <span class="sk-onboarding-media__rail-dot" />
+                <span class="sk-onboarding-media__rail-bar" />
+              </div>
+              <div class="sk-onboarding-media__rail-entry">
+                <span class="sk-onboarding-media__rail-dot" />
+                <span class="sk-onboarding-media__rail-bar" />
+              </div>
+              <div class="sk-onboarding-media__rail-entry">
+                <span class="sk-onboarding-media__rail-dot" />
+                <span class="sk-onboarding-media__rail-bar" />
+              </div>
+            </div>
+
+            <div class="sk-onboarding-media__canvas sk-onboarding-media__canvas--default">
+              <div class="sk-onboarding-media__toolbar">
+                <span class="is-active">Launch</span>
+                <span>People</span>
+                <span>Sync</span>
+              </div>
+
+              <div class="sk-onboarding-media__stats sk-onboarding-media__stats--default">
+                <div class="sk-onboarding-media__stat">
+                  <small>Checklist</small>
+                  <strong>04</strong>
+                </div>
+                <div class="sk-onboarding-media__stat">
+                  <small>Progress</small>
+                  <strong>Guided</strong>
+                </div>
+              </div>
+
+              <div class="sk-onboarding-media__feed sk-onboarding-media__feed--default">
+                <div class="sk-onboarding-media__feed-item">
+                  <span />
+                  <span />
+                </div>
+                <div class="sk-onboarding-media__feed-item">
+                  <span />
+                  <span />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+
       <template v-if="slots.actions" #actions>
         <slot name="actions" />
+      </template>
+
+      <template v-else-if="!hasCustomMedia" #actions>
+        <div class="sk-onboarding-actions sk-onboarding-actions--default" data-testid="onboarding-default-actions">
+          <div class="sk-onboarding-actions__group">
+            <button
+              v-if="mergedProps.primaryAction && !mergedProps.primaryAction.href"
+              class="sk-shell__action"
+              type="button"
+            >
+              {{ mergedProps.primaryAction.label }}
+            </button>
+            <a
+              v-else-if="mergedProps.primaryAction?.href"
+              class="sk-shell__action"
+              :href="mergedProps.primaryAction.href"
+            >
+              {{ mergedProps.primaryAction.label }}
+            </a>
+
+            <button
+              v-if="mergedProps.secondaryAction && !mergedProps.secondaryAction.href"
+              class="sk-shell__action is-secondary"
+              type="button"
+            >
+              {{ mergedProps.secondaryAction.label }}
+            </button>
+            <a
+              v-else-if="mergedProps.secondaryAction?.href"
+              class="sk-shell__action is-secondary"
+              :href="mergedProps.secondaryAction.href"
+            >
+              {{ mergedProps.secondaryAction.label }}
+            </a>
+          </div>
+
+          <p class="sk-onboarding-actions__hint">
+            Launch with the default onboarding shell, or replace `#media` and `#actions` when the first-run flow needs richer product context.
+          </p>
+        </div>
       </template>
     </StateBlockShell>
   </Transition>

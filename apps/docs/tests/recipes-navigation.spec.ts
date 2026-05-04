@@ -36,4 +36,27 @@ test.describe("Recipes navigation", () => {
       page.getByTestId("recipe-detail-live-preview").locator(".sk-shell"),
     ).toHaveAttribute("data-category", "error");
   });
+
+  test("opens the expanded onboarding activation recipes", async ({ page }) => {
+    await page.goto("/recipes");
+
+    await page.getByTestId("recipe-link-onboarding-members-state").click();
+    await expect(page).toHaveURL(/\/recipes\/onboarding-members-state$/);
+    await expect(
+      page.getByTestId("recipe-detail-live-preview").locator(".sk-shell"),
+    ).toHaveAttribute("data-category", "onboarding");
+    await expect(page.getByTestId("recipe-detail-metadata")).toContainText(
+      "OnboardingState",
+    );
+
+    await page.goto("/recipes");
+    await page.getByTestId("recipe-link-onboarding-integration-state").click();
+    await expect(page).toHaveURL(/\/recipes\/onboarding-integration-state$/);
+    await expect(
+      page.getByTestId("recipe-detail-live-preview").locator(".sk-shell"),
+    ).toHaveAttribute("data-category", "onboarding");
+    await expect(page.getByTestId("recipe-detail-metadata")).toContainText(
+      "OnboardingState",
+    );
+  });
 });

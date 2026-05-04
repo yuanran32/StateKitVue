@@ -19,7 +19,7 @@ export type StateCategory =
   | "success";
 
 /**
- * 19 个预设场景的稳定标识。
+ * 21 个预设场景的稳定标识。
  * 这些 id 会被文档站、兼容包装组件、代码片段生成和 preset 元数据共同使用，
  * 因此一旦变更，就不只是改一个字符串，而是一次带兼容成本的公共 API 调整。
  */
@@ -28,6 +28,8 @@ export type StateBlockId =
   | "empty-search"
   | "first-project"
   | "onboarding-workspace"
+  | "onboarding-members"
+  | "onboarding-integration"
   | "loading-table"
   | "loading-workspace"
   | "loading-import"

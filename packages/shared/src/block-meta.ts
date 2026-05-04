@@ -107,6 +107,48 @@ export const stateBlockMetaList: StateBlockMeta[] = [
       secondaryAction: { label: "Watch quick walkthrough" },
     },
   },
+  {
+    id: "onboarding-members",
+    slug: "onboarding-members-state",
+    componentName: "OnboardingState",
+    category: "onboarding",
+    summary:
+      "Use when the workspace exists and the next activation step is inviting the first teammates or collaborators.",
+    priority: "launch",
+    featured: true,
+    supportedLayouts: panelAndPage,
+    defaults: {
+      title: "Invite your first teammates",
+      description:
+        "Bring owners, reviewers, and operators into the workspace so setup can move from a solo draft into a shared launch plan.",
+      tone: "brand",
+      density: "spacious",
+      layout: "page",
+      primaryAction: { label: "Invite teammates" },
+      secondaryAction: { label: "Copy invite link" },
+    },
+  },
+  {
+    id: "onboarding-integration",
+    slug: "onboarding-integration-state",
+    componentName: "OnboardingState",
+    category: "onboarding",
+    summary:
+      "Use when the team has reached setup and needs to connect an initial integration or source system before work can start.",
+    priority: "launch",
+    featured: true,
+    supportedLayouts: panelAndPage,
+    defaults: {
+      title: "Connect your first integration",
+      description:
+        "Link the tools your team already uses so projects, approvals, and updates arrive in the workspace before the first handoff.",
+      tone: "brand",
+      density: "spacious",
+      layout: "page",
+      primaryAction: { label: "Connect integration" },
+      secondaryAction: { label: "View setup guide" },
+    },
+  },
   // loading 类预设：数据、工作区或导入任务尚未完成时的过渡状态。
   {
     id: "loading-table",
@@ -417,6 +459,8 @@ export const stateBlockMetaList: StateBlockMeta[] = [
 export const priorityStateBlockIds = [
   "empty-search",
   "onboarding-workspace",
+  "onboarding-members",
+  "onboarding-integration",
   "no-permission",
   "upgrade-plan",
   "page-error",
@@ -433,6 +477,8 @@ export const implementedBlockIds = [
   "empty-search",
   "first-project",
   "onboarding-workspace",
+  "onboarding-members",
+  "onboarding-integration",
   "loading-table",
   "loading-workspace",
   "loading-import",

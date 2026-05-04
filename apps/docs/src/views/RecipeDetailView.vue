@@ -112,12 +112,12 @@ const onboardingSlotDocs = [
   {
     name: "#media",
     description:
-      "Use for richer onboarding visuals such as product mockups, GIFs, or video. It replaces the small default onboarding figure only for `OnboardingState`.",
+      "Use for richer onboarding visuals such as product mockups, GIFs, or video. Keep the default shell when a recipe only needs a clear launch message, and switch to `#media` when the first-run surface must preview the product shape or activation steps.",
   },
   {
     name: "#actions",
     description:
-      "Use when the default two-button pattern is not enough and the page needs tutorial links, demo-data entry points, or a low-priority skip affordance.",
+      "Use when the default two-button pattern is not enough and the page needs tutorial links, demo-data entry points, or a low-priority skip affordance. Visibility, skip rules, and persistence should still stay in the host page.",
   },
 ] as const;
 
@@ -535,8 +535,10 @@ const relatedRecipes = computed(() => {
             <h2>Rich onboarding media and action areas</h2>
           </div>
           <p>
-            `OnboardingState` also exposes two optional named slots for richer
-            hero experiences. The page still owns visibility, skip behavior,
+            `OnboardingState` can stay simple for straightforward launch copy,
+            but it also exposes two optional named slots for richer hero
+            experiences across workspace setup, teammate invite, and initial
+            integration flows. The page still owns visibility, skip behavior,
             and any persistence rules outside the component.
           </p>
         </div>

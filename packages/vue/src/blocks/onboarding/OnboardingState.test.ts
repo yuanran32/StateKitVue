@@ -20,6 +20,8 @@ describe("OnboardingState", () => {
     expect(wrapper.get(".sk-shell__description").text()).toBe(
       "Bring projects, approvals, and teammates into one guided flow so the team can start shipping without rebuilding the basics.",
     );
+    expect(wrapper.get('[data-testid="onboarding-default-media"]')).toBeTruthy();
+    expect(wrapper.get('[data-testid="onboarding-default-actions"]')).toBeTruthy();
     expect(wrapper.findAll(".sk-shell__action").map((action) => action.text())).toEqual(
       ["Start guided setup", "Watch quick walkthrough"],
     );
@@ -55,6 +57,7 @@ describe("OnboardingState", () => {
     expect(wrapper.get('[data-testid="onboarding-media-slot"]').text()).toBe(
       "Hero media",
     );
+    expect(wrapper.find('[data-testid="onboarding-default-media"]').exists()).toBe(false);
     expect(wrapper.get(".sk-shell__media").attributes("aria-hidden")).toBeUndefined();
     expect(wrapper.get('[data-testid="onboarding-actions-slot"]').text()).toContain(
       "Enter workspace",
@@ -62,7 +65,7 @@ describe("OnboardingState", () => {
     expect(wrapper.get('[data-testid="onboarding-actions-slot"]').text()).toContain(
       "Skip intro",
     );
-    expect(wrapper.text()).not.toContain("Start guided setup");
-    expect(wrapper.text()).not.toContain("Watch quick walkthrough");
+    expect(wrapper.find('[data-testid="onboarding-default-actions"]').exists()).toBe(false);
+    expect(wrapper.text()).not.toContain("Launch with the default onboarding shell");
   });
 });

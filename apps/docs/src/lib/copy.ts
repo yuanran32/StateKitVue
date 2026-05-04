@@ -1,3 +1,5 @@
+import { stateBlockMetaList } from "@statekit-vue/shared";
+
 /**
  * StateKit ?????
  * 1. ??????????
@@ -8,8 +10,7 @@
 export const homeCopy = {
   eyebrow: "Category-first State UI",
   title: "Category-first state components for Vue teams",
-  description:
-    "StateKit gives Vue teams seven public state categories with one shared API, backed by 19 preset recipes for empty, onboarding, loading, error, permission, upgrade, and success moments.",
+  description: `StateKit gives Vue teams seven public state categories with one shared API, backed by ${stateBlockMetaList.length} preset recipes for empty, onboarding, loading, error, permission, upgrade, and success moments.`,
 };
 export const installationSteps = [
   "Install `@statekit-vue/vue` in the Vue 3.4+ workspace that renders the category components.",
@@ -22,7 +23,7 @@ export const examplePages = [
     href: "/examples/onboarding-activation",
     title: "Onboarding Activation",
     description:
-      "Hero-style onboarding with rich media, layered action slots, and lifecycle controlled entirely by the host page.",
+      "Hero-style onboarding across workspace launch, teammate invite, and integration setup, with rich media, layered action slots, and lifecycle controlled entirely by the host page.",
   },
   {
     href: "/examples/admin-empty-states",

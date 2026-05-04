@@ -15,7 +15,7 @@ StateKit 是一个面向 SaaS 产品的 category-first 状态 UI 组件库，当
 ## 当前实现方式
 
 - 公开 API 已经收敛到 7 个 category-first 入口：`EmptyState`、`OnboardingState`、`LoadingState`、`ErrorState`、`PermissionState`、`UpgradeState`、`SuccessState`。
-- 底层仍保留 19 个 preset recipes；旧场景名组件继续作为 deprecated compatibility exports 保留。
+- 底层保留 21 个 preset recipes；旧场景名组件继续作为 deprecated compatibility exports 保留。
 - Vue 层核心渲染逻辑集中在 `StatePresetBlock` 和 `StateBlockShell`。
 - docs 站直接读取 shared 元数据，shared 变更会同步影响 docs 展示与示例代码。
 
@@ -24,7 +24,7 @@ StateKit 是一个面向 SaaS 产品的 category-first 状态 UI 组件库，当
 - npm 上最新已发布版本：
   - `@statekit-vue/shared@0.2.1`
   - `@statekit-vue/vue@0.2.1`
-- 本地 workspace 当前仍在 `0.2.1` 版本线，但已经包含未发版的 onboarding category pilot 及后续扩展工作。
+- 本地 workspace 当前已切到 `0.3.0` release-prep 版本线，等待最终验证和 npm 发布。
 
 ## 最近已经完成的工作
 
@@ -33,7 +33,7 @@ StateKit 是一个面向 SaaS 产品的 category-first 状态 UI 组件库，当
 - Playwright 测试套件已扩展到 10 个 spec 文件，覆盖所有主路径和移动端断点。
 - example 已完成第一轮视觉重做，方向是更安静、更开放的 editorial layout，而不是 admin 卡片墙。
 - docs 示例页和 docs 站外层样式已一起收口，整体持续减少卡片感。
-- onboarding 已作为独立 category 试点引入，当前先提供 `OnboardingState` 和 `onboarding-workspace` 这条完整链路。
+- onboarding 已作为独立 category 引入，当前提供 `OnboardingState` 以及 `onboarding-workspace`、`onboarding-members`、`onboarding-integration` 三个 recipes。
 - 共享插图细节已修正：
   - success 去掉 shadow line
   - error cross 改成真正居中
@@ -84,8 +84,8 @@ StateKit 是一个面向 SaaS 产品的 category-first 状态 UI 组件库，当
 
 ## 当前优先方向
 
-- 确认 onboarding category 的版本发布口径（当前倾向 `0.3.0` minor）
+- 完成 `0.3.0` 发版前验证并发布两个 npm 包
 - 人工浏览 `/examples/onboarding-activation` 和 `examples/vite-vue-admin`，确认 onboarding vs empty vs success 的语义边界在视觉上清晰
-- 补 onboarding 的第 2、3 个 recipe（邀请成员、完成初始连接）
+- 人工确认 3 个 onboarding recipes 的 family 感和语义边界
 - 给 `error` / `permission` / `success` 这些插图补截图测试
 - 持续维持 README、package README、launch checklist、handoff notes 的口径一致

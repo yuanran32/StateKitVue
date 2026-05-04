@@ -1,5 +1,29 @@
 # StateKit Changelog
 
+## 2026-05-04 Release Prep (0.3.0)
+
+### Added
+
+- Prepared the `0.3.0` minor release line for the onboarding category work.
+- Expanded the onboarding recipe family from one pilot recipe to three launch-ready recipes: `onboarding-workspace`, `onboarding-members`, and `onboarding-integration`.
+- Added recipe-level onboarding demos and navigation coverage so `/examples/onboarding-activation` links back to all three onboarding recipe detail pages.
+
+### Changed
+
+- Bumped `@statekit-vue/shared` from `0.2.1` to `0.3.0`.
+- Bumped `@statekit-vue/vue` from `0.2.1` to `0.3.0` and aligned its dependency on `@statekit-vue/shared` to `0.3.0`.
+- Aligned `apps/docs` and `examples/vite-vue-admin` on the `0.3.0` workspace line for release verification.
+- Updated the public recipe count from 19 to 21 while keeping the public category entry count at 7.
+
+### Pending Verification
+
+- `npm run typecheck`
+- `npm run build`
+- `npm run test:unit`
+- `npm run test:ui`
+- `npm run pack:check`
+- `npm run smoke:install`
+
 ## 2026-04-27 Onboarding Hero Flow & Test Coverage (Unreleased)
 
 ### Added

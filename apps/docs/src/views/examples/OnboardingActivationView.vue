@@ -287,7 +287,7 @@ const onboardingNotes = computed(() => [
         </template>
 
         <template v-else>
-          <div class="demo-inline-panel">
+          <div class="demo-inline-panel" data-testid="onboarding-closed-panel">
             <div class="demo-inline-panel__copy">
               <h3>Workspace surface unlocked by page state</h3>
               <p>{{ activityNote }}</p>

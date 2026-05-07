@@ -91,6 +91,62 @@ Recipe 列表页必须：
 
 docs 站是最重要的人工 QA 面板。同时，`apps/docs/tests/` 下已有 10 个 Playwright spec 文件覆盖主路径和移动端断点，提供基础自动化回归。自动化测试通过后，仍需人工确认视觉质量。
 
+### Browser MCP 交互 QA
+
+当改动涉及 docs、example、路由、响应式、onboarding、视觉层级或用户可点击交互时，除了 `npm run test:ui`，还要用浏览器 MCP 直接检查页面。这个流程是测试循环的一部分，但不是 npm script。
+
+#### 适用场景
+
+- 修 docs 站或 example app 的页面布局、样式、交互、路由。
+- 修改 `packages/vue/src/styles/` 或影响 `StateBlockShell`、`OnboardingState`、action slot、响应式行为。
+- 修复用户指出的页面错位、裁切、按钮异常、动效或移动端问题。
+- Reviewer 要求补充真实浏览器证据。
+
+#### 推荐本地目标
+
+- docs 站：`http://127.0.0.1:4173/`
+- 真实集成 example：`http://127.0.0.1:4273/`
+
+如果端口被占用，Vite 可能切到 `4174`、`4274` 或其他端口。记录实际使用的 URL，不要只写默认端口。
+
+#### Playwright MCP 检查
+
+用 Playwright MCP 覆盖用户路径和视口：
+
+- 打开目标页面，确认 title 和主要 landmark 可读。
+- 点击至少一条关键路径，例如 nav、recipe card、primary CTA、reopen/skip/action 按钮。
+- 对状态型交互，记录点击前后的可见状态变化，例如 loading label、closed panel、计数变化、按钮 disabled。
+- 桌面和手机至少检查一个相关视口；响应式或移动端改动必须检查手机宽度。
+- 用页面 evaluate 检查无横向溢出：
+
+```js
+document.documentElement.scrollWidth <= window.innerWidth + 1
+```
+
+#### Chrome DevTools MCP 检查
+
+用 Chrome DevTools MCP 覆盖浏览器层面的可观察风险：
+
+- 读取 accessibility snapshot，确认关键标题、按钮、链接能被浏览器看到。
+- 点击关键按钮或链接，确认 snapshot 中出现预期状态。
+- 查看 console error/warning。`favicon.ico` 404 可以记录为非业务错误；脚本错误、组件 warning、hydration 或资源加载失败需要处理。
+- 查看主要 network 请求，至少确认 document、script、stylesheet 返回正常状态。
+- 对视觉或布局改动保存截图到 `.agent/`，命名应能说明页面和状态，例如 `.agent/example-onboarding-fixed.png`。
+
+#### 记录格式
+
+最终回复、任务模板或 review bundle 中至少记录：
+
+```md
+Browser MCP QA:
+- Playwright MCP: URL, viewport, clicked path, observed state, overflow result
+- Chrome DevTools MCP: URL, snapshot target, console/network result
+- Screenshots: .agent/...
+- Notes: known non-business warnings or skipped checks
+```
+
+如果 Browser MCP 不可用，说明具体原因和替代检查。不要把未执行的 MCP 检查写成通过。
+
 ### 基础检查
 
 - 首页、列表页、详情页和安装页都可正常访问。

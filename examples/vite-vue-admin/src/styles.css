@@ -170,7 +170,16 @@ a {
 }
 
 .example-band--onboarding {
-  grid-template-columns: minmax(220px, 0.62fr) minmax(720px, 1.38fr);
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.example-band--onboarding .example-band__intro {
+  max-width: 760px;
+}
+
+.example-band--onboarding .example-band__intro h2 {
+  max-width: 24ch;
 }
 
 .example-band__intro {
@@ -497,6 +506,14 @@ a {
 
   .launch-panel__facts {
     grid-template-columns: 1fr;
+  }
+
+  .example-band__stage--onboarding .sk-shell[data-category="onboarding"][data-layout="page"] .sk-shell__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .example-band__stage--onboarding .sk-shell[data-category="onboarding"][data-layout="page"] .sk-shell__media {
+    justify-content: flex-start;
   }
 }
 

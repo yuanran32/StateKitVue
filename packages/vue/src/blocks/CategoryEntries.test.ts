@@ -1,12 +1,14 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
-import EmptyState from "./empty/EmptyState.vue";
-import OnboardingState from "./onboarding/OnboardingState.vue";
-import LoadingState from "./loading/LoadingState.vue";
-import ErrorState from "./error/ErrorState.vue";
-import PermissionState from "./permission/PermissionState.vue";
-import UpgradeState from "./upgrade/UpgradeState.vue";
-import SuccessState from "./success/SuccessState.vue";
+import {
+  EmptyState,
+  ErrorState,
+  LoadingState,
+  OnboardingState,
+  PermissionState,
+  SuccessState,
+  UpgradeState,
+} from "@statekit-vue/vue";
 
 const categoryEntryCases = [
   {

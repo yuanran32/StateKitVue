@@ -20,8 +20,14 @@
     "typecheck": "npm run typecheck --workspace @statekit-vue/shared && npm run typecheck --workspace @statekit-vue/vue && npm run typecheck --workspace @statekit/docs && npm run typecheck --workspace @statekit/example-vite-vue-admin",
     "pack:check": "npm pack --workspace @statekit-vue/shared --json --dry-run && npm pack --workspace @statekit-vue/vue --json --dry-run",
     "smoke:install": "node ./scripts/smoke-install.mjs",
+    "lint:boundaries": "node ./scripts/check-boundaries.mjs",
     "test:ui": "playwright test",
-    "test:unit": "vitest run"
+    "test:unit": "vitest run",
+    "verify:fast": "npm run lint:boundaries && npm run typecheck && npm run test:unit && npm run build",
+    "verify:ui": "npm run test:ui",
+    "verify:release": "npm run lint:boundaries && npm run typecheck && npm run build && npm run test:unit && npm run test:ui && npm run pack:check && npm run smoke:install",
+    "verify": "npm run verify:release",
+    "review:bundle": "node ./scripts/agent-review-bundle.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.54.2",

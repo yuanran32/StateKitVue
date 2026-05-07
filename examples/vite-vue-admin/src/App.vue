@@ -138,7 +138,7 @@ const summaryCards = computed(() => [
 </script>
 
 <template>
-  <main class="showcase-shell">
+  <main class="showcase-shell" data-testid="example-app-shell">
     <header class="showcase-hero">
       <div class="showcase-hero__copy">
         <p class="showcase-kicker">StateKit / Example studies</p>
@@ -180,7 +180,7 @@ const summaryCards = computed(() => [
     </section>
 
     <section class="examples-rail" aria-label="State examples">
-      <section class="example-band example-band--onboarding">
+      <section class="example-band" data-testid="example-empty-state">
         <div class="example-band__intro">
           <div class="example-band__meta">
             <p class="example-band__index">Example 01</p>
@@ -229,7 +229,7 @@ const summaryCards = computed(() => [
         </div>
       </section>
 
-      <section class="example-band">
+      <section class="example-band example-band--onboarding" data-testid="example-onboarding-hero">
         <div class="example-band__intro">
           <div class="example-band__meta">
             <p class="example-band__index">Example 02</p>
@@ -359,7 +359,11 @@ const summaryCards = computed(() => [
           </template>
 
           <template v-else>
-            <div id="launch-notes" class="launch-panel">
+            <div
+              id="launch-notes"
+              class="launch-panel"
+              data-testid="example-onboarding-closed-panel"
+            >
               <div class="launch-panel__copy">
                 <p class="example-band__index">Host page state</p>
                 <h3>Workspace surface unlocked outside the component</h3>
@@ -394,7 +398,7 @@ const summaryCards = computed(() => [
         </div>
       </section>
 
-      <section class="example-band">
+      <section class="example-band" data-testid="example-onboarding-recipes">
         <div class="example-band__intro">
           <div class="example-band__meta">
             <p class="example-band__index">Example 03</p>
@@ -427,7 +431,7 @@ const summaryCards = computed(() => [
         </div>
       </section>
 
-      <section class="example-band">
+      <section class="example-band" data-testid="example-loading-state">
         <div class="example-band__intro">
           <div class="example-band__meta">
             <p class="example-band__index">Example 04</p>
@@ -462,7 +466,7 @@ const summaryCards = computed(() => [
         </div>
       </section>
 
-      <section class="example-band">
+      <section class="example-band" data-testid="example-permission-state">
         <div class="example-band__intro">
           <div class="example-band__meta">
             <p class="example-band__index">Example 05</p>
@@ -496,7 +500,7 @@ const summaryCards = computed(() => [
         </div>
       </section>
 
-      <section class="example-band">
+      <section class="example-band" data-testid="example-upgrade-state">
         <div class="example-band__intro">
           <div class="example-band__meta">
             <p class="example-band__index">Example 05</p>
@@ -534,7 +538,7 @@ const summaryCards = computed(() => [
         </div>
       </section>
 
-      <section class="example-band">
+      <section class="example-band" data-testid="example-error-state">
         <div class="example-band__intro">
           <div class="example-band__meta">
             <p class="example-band__index">Example 06</p>
@@ -571,7 +575,7 @@ const summaryCards = computed(() => [
         </div>
       </section>
 
-      <section class="example-band example-band--full">
+      <section class="example-band example-band--full" data-testid="example-success-state">
         <div class="example-band__intro">
           <div class="example-band__meta">
             <p class="example-band__index">Example 07</p>

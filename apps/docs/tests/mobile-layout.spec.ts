@@ -65,9 +65,18 @@ test.describe("Mobile layout", () => {
     expect(mediaBox).not.toBeNull();
     expect(railBox).not.toBeNull();
     expect(canvasBox).not.toBeNull();
-    expect(mediaBox!.y).toBeGreaterThan(contentBox!.y);
-    expect(mediaBox!.width).toBeLessThanOrEqual(mobileViewport.width);
-    expect(canvasBox!.y).toBeGreaterThan(railBox!.y);
+    expect(mediaBox!.y).toBeGreaterThanOrEqual(
+      contentBox!.y + contentBox!.height - 1,
+    );
+    expect(mediaBox!.x).toBeGreaterThanOrEqual(0);
+    expect(mediaBox!.x + mediaBox!.width).toBeLessThanOrEqual(
+      mobileViewport.width + 1,
+    );
+    expect(canvasBox!.y).toBeGreaterThanOrEqual(railBox!.y + railBox!.height - 1);
+    expect(canvasBox!.x).toBeGreaterThanOrEqual(0);
+    expect(canvasBox!.x + canvasBox!.width).toBeLessThanOrEqual(
+      mobileViewport.width + 1,
+    );
   });
 
   test("collapses recipe detail grids to a single column on phone width", async ({

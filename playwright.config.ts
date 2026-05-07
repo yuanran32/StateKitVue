@@ -14,13 +14,22 @@ export default defineConfig({
     baseURL: "http://127.0.0.1:4173",
     trace: "on-first-retry",
   },
-  webServer: {
-    command:
-      "npm run dev --workspace @statekit/docs -- --host 127.0.0.1 --port 4173",
-    url: "http://127.0.0.1:4173",
-    reuseExistingServer: true,
-    timeout: 120_000,
-  },
+  webServer: [
+    {
+      command:
+        "npm run dev --workspace @statekit/docs -- --host 127.0.0.1 --port 4173",
+      url: "http://127.0.0.1:4173",
+      reuseExistingServer: true,
+      timeout: 120_000,
+    },
+    {
+      command:
+        "npm run dev --workspace @statekit/example-vite-vue-admin -- --host 127.0.0.1 --port 4273",
+      url: "http://127.0.0.1:4273",
+      reuseExistingServer: true,
+      timeout: 120_000,
+    },
+  ],
   projects: [
     {
       name: "chromium",

@@ -93,16 +93,14 @@ test.describe("Onboarding activation example", () => {
     page,
   }) => {
     const demo = page.getByTestId("page-onboarding-state-demo");
-    const closedPanelCopy = demo.locator(".demo-inline-panel__copy p");
 
     await demo.getByRole("button", { name: "Start guided setup" }).click();
 
     await expect(
       demo.getByRole("button", { name: "Preparing workspace..." }),
     ).toBeDisabled();
-    await expect(closedPanelCopy).toHaveText(
-      "Guided setup completed in the page layer. The component stayed stateless and the page decided to hide the onboarding hero.",
-    );
+    await expect(demo.getByTestId("onboarding-closed-panel")).toBeVisible();
+    await expect(demo.locator(".sk-onboarding-media")).toHaveCount(0);
     await expect(
       page.getByRole("heading", { name: "Workspace surface unlocked by page state" }),
     ).toBeVisible();
@@ -117,7 +115,6 @@ test.describe("Onboarding activation example", () => {
     page,
   }) => {
     const demo = page.getByTestId("page-onboarding-state-demo");
-    const closedPanelCopy = demo.locator(".demo-inline-panel__copy p");
 
     await demo.getByRole("button", { name: "Load demo workspace" }).click();
 
@@ -130,9 +127,8 @@ test.describe("Onboarding activation example", () => {
 
     await demo.locator(".sk-onboarding-actions__skip").click();
 
-    await expect(closedPanelCopy).toHaveText(
-      "Skipped from the page layer. No `dismissed`, `showOnce`, or `localStorage` API was needed in the component library.",
-    );
+    await expect(demo.getByTestId("onboarding-closed-panel")).toBeVisible();
+    await expect(demo.locator(".sk-onboarding-media")).toHaveCount(0);
 
     await page.getByRole("button", { name: "Show onboarding again" }).click();
     await demo.getByRole("link", { name: "Review recipe defaults" }).click();

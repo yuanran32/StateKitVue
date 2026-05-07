@@ -5,8 +5,13 @@ coverage/
 test-results/
 playwright-report/
 blob-report/
+.agent/
 *.tsbuildinfo
 *.log
 .DS_Store
 .idea/
 .vscode/
+.playwright-mcp/
+docs-onboarding-mobile.png
+example-onboarding-fixed-desktop.png
+example-onboarding-fixed-section.png

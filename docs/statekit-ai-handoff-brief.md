@@ -11,6 +11,7 @@ StateKit 是一个面向 SaaS 产品的 category-first 状态 UI 组件库，当
 - `packages/vue` 提供 `@statekit-vue/vue` 的组件实现、导出和默认样式。
 - `apps/docs` 是文档站与主要人工 QA 面板，同时也是 Playwright 自动化回归的测试宿主。
 - `examples/vite-vue-admin` 用于展示更真实的集成场景，当前以 onboarding-to-completion 流程为主线。
+- 根目录 `AGENTS.md` 是 AI agent 入口地图，`docs/statekit-agent-harness.md` 说明 agent 工作循环和验证命令，`docs/agent-review-loop.md` 定义 Builder / Reviewer 双 agent 审查闭环。
 
 ## 当前实现方式
 
@@ -60,6 +61,10 @@ StateKit 是一个面向 SaaS 产品的 category-first 状态 UI 组件库，当
 - `packages/vue/src/styles/base.css`
 - `apps/docs/src/styles.css`
 - `apps/docs/src/demo-styles.css`
+- `AGENTS.md`
+- `docs/statekit-agent-harness.md`
+- `docs/agent-review-loop.md`
+- `docs/agent-review-template.md`
 - `apps/docs/src/router.ts`
 - `apps/docs/src/lib/recipe-docs.ts`
 - `apps/docs/src/lib/recipe-components.ts`

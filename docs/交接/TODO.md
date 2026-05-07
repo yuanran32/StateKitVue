@@ -56,8 +56,13 @@
   下一步：可继续把 `/examples/permissions-and-upgrade` 和 `/examples/task-flow` 串成更完整的"阻断 → 完成"路径。
 
 - [x] 把 UI 自动化覆盖扩到更多示例页和主路径
-  已完成：新增 `home-featured-recipes`、`installation-navigation`、`mobile-layout`、`onboarding-activation`、`recipe-detail-paths` 共 5 个 spec 文件，当前共 10 个 Playwright spec，覆盖了所有主路径和移动端断点。
+  已完成：新增 `home-featured-recipes`、`installation-navigation`、`mobile-layout`、`onboarding-activation`、`recipe-detail-paths`、`chinese-locale` 等 spec 文件，当前共 11 个 Playwright spec，覆盖了所有主路径、移动端断点和中文 locale 导航。
   剩余：`/examples/permissions-and-upgrade` 和 `/examples/task-flow` 已有 spec，确认断言密度是否足够。
+
+- [x] 给 docs 站补中文版本
+  已完成：新增 `/zh-CN` 路由家族，覆盖首页、recipes、recipe 详情、安装页和示例页入口；顶部语言切换可在英文和中文之间保留当前页面。
+  边界：中文 recipe 展示层在 docs 本地维护，不改 `packages/shared` 的真实默认 metadata；slug、组件名、priority、layout 等 API 事实保持英文/代码原样。
+  已验证：`npm run typecheck --workspace @statekit/docs`、`npm run test:ui`、`npm run build --workspace @statekit/docs`。
 
 - [ ] 继续减少 docs 站的手写分类文案与维护点
   当前 recipe 列表和详情页虽然已经主要吃 shared 元数据，但首页分类说明、部分 usage copy 仍然是手写维护。

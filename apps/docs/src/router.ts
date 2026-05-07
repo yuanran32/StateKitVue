@@ -1,4 +1,8 @@
-import { createRouter, createWebHistory } from "vue-router";
+import {
+  createRouter,
+  createWebHistory,
+  type RouteRecordRaw,
+} from "vue-router";
 import HomeView from "./views/HomeView.vue";
 import RecipesView from "./views/RecipesView.vue";
 import RecipeDetailView from "./views/RecipeDetailView.vue";
@@ -8,30 +12,61 @@ import OnboardingActivationView from "./views/examples/OnboardingActivationView.
 import PermissionsAndUpgradeView from "./views/examples/PermissionsAndUpgradeView.vue";
 import TaskFlowView from "./views/examples/TaskFlowView.vue";
 
+const baseRoutes: RouteRecordRaw[] = [
+  { path: "/", component: HomeView },
+  { path: "/recipes", component: RecipesView },
+  { path: "/recipes/:slug", component: RecipeDetailView },
+  { path: "/blocks", redirect: "/recipes" },
+  {
+    path: "/blocks/:slug",
+    redirect: (to) => `/recipes/${String(to.params.slug ?? "")}`,
+  },
+  { path: "/docs/installation", component: InstallationView },
+  { path: "/examples", redirect: "/examples/onboarding-activation" },
+  {
+    path: "/examples/onboarding-activation",
+    component: OnboardingActivationView,
+  },
+  { path: "/examples/admin-empty-states", component: AdminEmptyStatesView },
+  {
+    path: "/examples/permissions-and-upgrade",
+    component: PermissionsAndUpgradeView,
+  },
+  { path: "/examples/task-flow", component: TaskFlowView },
+];
+
+const zhRoutes: RouteRecordRaw[] = [
+  { path: "/zh-CN", component: HomeView },
+  { path: "/zh-CN/recipes", component: RecipesView },
+  { path: "/zh-CN/recipes/:slug", component: RecipeDetailView },
+  { path: "/zh-CN/blocks", redirect: "/zh-CN/recipes" },
+  {
+    path: "/zh-CN/blocks/:slug",
+    redirect: (to) => `/zh-CN/recipes/${String(to.params.slug ?? "")}`,
+  },
+  { path: "/zh-CN/docs/installation", component: InstallationView },
+  {
+    path: "/zh-CN/examples",
+    redirect: "/zh-CN/examples/onboarding-activation",
+  },
+  {
+    path: "/zh-CN/examples/onboarding-activation",
+    component: OnboardingActivationView,
+  },
+  {
+    path: "/zh-CN/examples/admin-empty-states",
+    component: AdminEmptyStatesView,
+  },
+  {
+    path: "/zh-CN/examples/permissions-and-upgrade",
+    component: PermissionsAndUpgradeView,
+  },
+  { path: "/zh-CN/examples/task-flow", component: TaskFlowView },
+];
+
 export default createRouter({
   // 跟随 Vite 的 BASE_URL，当前在 Vercel 根路径部署时会是 "/"
   // 以后如果切到子路径部署，只需要改 Vite base，不必再改路由代码。
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    { path: "/", component: HomeView },
-    { path: "/recipes", component: RecipesView },
-    { path: "/recipes/:slug", component: RecipeDetailView },
-    { path: "/blocks", redirect: "/recipes" },
-    {
-      path: "/blocks/:slug",
-      redirect: (to) => `/recipes/${String(to.params.slug ?? "")}`,
-    },
-    { path: "/docs/installation", component: InstallationView },
-    { path: "/examples", redirect: "/examples/onboarding-activation" },
-    {
-      path: "/examples/onboarding-activation",
-      component: OnboardingActivationView,
-    },
-    { path: "/examples/admin-empty-states", component: AdminEmptyStatesView },
-    {
-      path: "/examples/permissions-and-upgrade",
-      component: PermissionsAndUpgradeView,
-    },
-    { path: "/examples/task-flow", component: TaskFlowView },
-  ],
+  routes: [...baseRoutes, ...zhRoutes],
 });

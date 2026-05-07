@@ -2,26 +2,13 @@
 import { computed } from "vue";
 import { RouterLink } from "vue-router";
 import { allRecipeDocs } from "../lib/recipe-docs";
+import { categoryCopy, recipeIndexCopy } from "../lib/copy";
+import { useLocale } from "../lib/i18n";
+import { getRecipeCopy } from "../lib/recipe-i18n";
 
-const categoryLabels = {
-  empty: "Empty",
-  onboarding: "Onboarding",
-  loading: "Loading",
-  error: "Error",
-  permission: "Permission",
-  upgrade: "Upgrade",
-  success: "Success",
-} as const;
-
-const categoryDescriptions = {
-  empty: "Blank collections and empty searches that still need the next step.",
-  onboarding: "First-run activation states that start the workspace before content exists.",
-  loading: "States that hold structure while content is still arriving.",
-  error: "Failures that need retry, recovery, or a safe way out.",
-  permission: "Access restrictions tied to role, resource, or session state.",
-  upgrade: "Quota and plan gates that still read like product flow.",
-  success: "Completion moments that keep momentum after the task ends.",
-} as const;
+const { locale, routePath } = useLocale();
+const copy = computed(() => recipeIndexCopy[locale.value]);
+const categoriesCopy = computed(() => categoryCopy[locale.value]);
 
 const categorySections = computed(() =>
   (
@@ -36,9 +23,14 @@ const categorySections = computed(() =>
     ] as const
   ).map((category) => ({
     category,
-    label: categoryLabels[category],
-    description: categoryDescriptions[category],
-    recipes: allRecipeDocs.filter((recipe) => recipe.category === category),
+    label: categoriesCopy.value.labels[category],
+    description: categoriesCopy.value.listDescriptions[category],
+    recipes: allRecipeDocs
+      .filter((recipe) => recipe.category === category)
+      .map((recipe) => ({
+        ...recipe,
+        localized: getRecipeCopy(recipe, locale.value),
+      })),
   })),
 );
 
@@ -51,27 +43,25 @@ const launchRecipeCount = computed(
   <section class="page-stack">
     <section class="page-hero">
       <div>
-        <p class="eyebrow">Recipe Index</p>
-        <h1>Preset recipes by state category</h1>
+        <p class="eyebrow">{{ copy.eyebrow }}</p>
+        <h1>{{ copy.title }}</h1>
         <p>
-          Browse all {{ allRecipeDocs.length }} preset recipes, compare adjacent moments inside the same
-          category, and see which public category entry each recipe resolves
-          through.
+          {{ copy.description }}
         </p>
       </div>
 
       <div class="page-hero__facts">
         <div class="page-fact">
           <strong>{{ allRecipeDocs.length }}</strong>
-          <span>Total recipes</span>
+          <span>{{ copy.totalRecipes }}</span>
         </div>
         <div class="page-fact">
           <strong>{{ launchRecipeCount }}</strong>
-          <span>Launch priority</span>
+          <span>{{ copy.launchPriority }}</span>
         </div>
         <div class="page-fact">
           <strong>{{ categorySections.length }}</strong>
-          <span>Categories</span>
+          <span>{{ copy.categories }}</span>
         </div>
       </div>
     </section>
@@ -84,10 +74,12 @@ const launchRecipeCount = computed(
       <div class="section-heading section-heading--inline">
         <div>
           <p class="eyebrow">{{ section.category }}</p>
-          <h2>{{ section.label }} recipes</h2>
+          <h2>{{ copy.sectionRecipeTitle(section.label) }}</h2>
           <p>{{ section.description }}</p>
         </div>
-        <span class="meta-pill meta-pill--solid">{{ section.recipes.length }} recipes</span>
+        <span class="meta-pill meta-pill--solid">
+          {{ section.recipes.length }} {{ copy.recipeSuffix }}
+        </span>
       </div>
 
       <div class="block-list" :data-testid="`recipe-list-${section.category}`">
@@ -96,16 +88,16 @@ const launchRecipeCount = computed(
           :key="recipe.id"
           class="block-list__item"
           :data-testid="`recipe-link-${recipe.slug}`"
-          :to="'/recipes/' + recipe.slug"
+          :to="routePath('/recipes/' + recipe.slug)"
         >
           <div class="block-list__main">
             <p class="block-card__eyebrow">{{ recipe.category }}</p>
-            <h3>{{ recipe.defaults.title }}</h3>
-            <p>{{ recipe.summary }}</p>
+            <h3>{{ recipe.localized.defaults.title }}</h3>
+            <p>{{ recipe.localized.summary }}</p>
           </div>
 
           <div class="block-list__meta">
-            <span class="meta-pill">Entry {{ recipe.componentName }}</span>
+            <span class="meta-pill">{{ copy.entryLabel }} {{ recipe.componentName }}</span>
             <span class="meta-pill">{{ recipe.supportedLayouts.join(" · ") }}</span>
             <span
               class="meta-pill"

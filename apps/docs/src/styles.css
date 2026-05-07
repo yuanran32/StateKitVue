@@ -212,6 +212,16 @@ code {
   transition: transform 180ms ease;
 }
 
+.site-nav__divider {
+  width: 1px;
+  height: 22px;
+  background: var(--site-line-strong);
+}
+
+.site-nav__link--language {
+  font-size: 0.86rem;
+}
+
 .site-nav__link:hover,
 .site-nav__link.is-active {
   color: var(--site-ink);
@@ -1060,6 +1070,10 @@ code {
   .site-nav {
     width: 100%;
     gap: 10px 18px;
+  }
+
+  .site-nav__divider {
+    display: none;
   }
 
   .site-nav__link {

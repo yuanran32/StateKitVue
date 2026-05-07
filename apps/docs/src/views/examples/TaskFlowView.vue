@@ -5,7 +5,11 @@ import {
   LoadingState,
   SuccessState,
 } from "@statekit-vue/vue";
+import { exampleHeaderCopy } from "../../lib/example-page-copy";
+import { useLocale } from "../../lib/i18n";
 
+const { locale } = useLocale();
+const headerCopy = computed(() => exampleHeaderCopy.taskFlow[locale.value]);
 const logOpenPending = ref(false);
 const logViews = ref(6);
 const retryPending = ref(false);
@@ -65,19 +69,20 @@ const taskRows = computed(() => [
     <section class="demo-shell">
       <div class="demo-shell__header">
         <div>
-          <p class="demo-kicker">Example</p>
-          <h1>Task Flow</h1>
+          <p class="demo-kicker">{{ headerCopy.kicker }}</p>
+          <h1>{{ headerCopy.title }}</h1>
           <p>
-            A back-office import run rewritten around the current CTA API:
-            custom loading labels, inline retry handlers, anchor-style help
-            links, and a completion state that hides its secondary action when a
-            single next step is enough.
+            {{ headerCopy.description }}
           </p>
         </div>
         <div class="demo-chip-row" aria-label="Scenario tags">
-          <span class="demo-chip">Custom loading label</span>
-          <span class="demo-chip">Inline retry</span>
-          <span class="demo-chip">Single next action</span>
+          <span
+            v-for="chip in headerCopy.chips"
+            :key="chip"
+            class="demo-chip"
+          >
+            {{ chip }}
+          </span>
         </div>
       </div>
 

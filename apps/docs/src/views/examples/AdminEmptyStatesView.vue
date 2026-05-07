@@ -2,7 +2,11 @@
 import { computed, ref } from "vue";
 import { RouterLink } from "vue-router";
 import { EmptyState } from "@statekit-vue/vue";
+import { exampleHeaderCopy } from "../../lib/example-page-copy";
+import { useLocale } from "../../lib/i18n";
 
+const { locale, routePath } = useLocale();
+const headerCopy = computed(() => exampleHeaderCopy.adminEmptyStates[locale.value]);
 const activeFilters = ref([
   "Campaign: Spring relaunch",
   "Owner: Brand studio",
@@ -87,21 +91,26 @@ const emptyStateGuidance = computed(() => [
     <section class="demo-shell">
       <div class="demo-shell__header">
         <div>
-          <p class="demo-kicker">Example</p>
-          <h1>Admin Empty States</h1>
+          <p class="demo-kicker">{{ headerCopy.kicker }}</p>
+          <h1>{{ headerCopy.title }}</h1>
           <p>
-            Two quieter empty-state patterns inside a content operations
-            workspace: inline search recovery that keeps table chrome visible,
-            and a single-CTA panel for creating the first shared collection.
+            {{ headerCopy.description }}
           </p>
         </div>
 
         <div class="demo-chip-row" aria-label="Scenario tags">
-          <span class="demo-chip">Inline recovery</span>
-          <span class="demo-chip">Single CTA with null</span>
-          <span class="demo-chip">Quiet baseline</span>
-          <RouterLink class="button-link is-secondary" to="/examples/onboarding-activation">
-            Open onboarding hero example
+          <span
+            v-for="chip in headerCopy.chips"
+            :key="chip"
+            class="demo-chip"
+          >
+            {{ chip }}
+          </span>
+          <RouterLink
+            class="button-link is-secondary"
+            :to="routePath('/examples/onboarding-activation')"
+          >
+            {{ headerCopy.onboardingLink }}
           </RouterLink>
         </div>
       </div>
@@ -232,8 +241,11 @@ const emptyStateGuidance = computed(() => [
                 entry instead of stretching the empty-state baseline.
               </p>
             </div>
-            <RouterLink class="button-link is-secondary" to="/examples/onboarding-activation">
-              Open onboarding example
+            <RouterLink
+              class="button-link is-secondary"
+              :to="routePath('/examples/onboarding-activation')"
+            >
+              {{ headerCopy.onboardingLink }}
             </RouterLink>
           </div>
 

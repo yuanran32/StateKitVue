@@ -1,5 +1,25 @@
 # StateKit Changelog
 
+## 2026-05-07 Chinese Docs Locale (Unreleased)
+
+### Added
+
+- Added a `/zh-CN` docs-site locale with Chinese routes for home, recipes, recipe details, installation, and all docs example entries.
+- Added locale-aware top navigation and language switching that preserves the current page when moving between English and Chinese paths.
+- Added docs-local Chinese recipe display copy so reader-facing titles, summaries, descriptions, CTA labels, and snippets can be localized without changing `packages/shared` metadata.
+- Added `apps/docs/tests/chinese-locale.spec.ts` to cover Chinese home, recipes, detail, installation, and language switching.
+
+### Changed
+
+- Refactored docs copy into locale-aware helpers under `apps/docs/src/lib/` while keeping the existing English URLs and public recipe metadata unchanged.
+- Updated `docs/statekit-docs-site-and-qa-spec.md` with the bilingual route map and localization constraints.
+
+### Verified
+
+- `npm run typecheck --workspace @statekit/docs`
+- `npm run test:ui`
+- `npm run build --workspace @statekit/docs`
+
 ## 2026-05-04 Release Prep (0.3.0)
 
 ### Added

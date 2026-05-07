@@ -4,7 +4,11 @@ import {
   PermissionState,
   UpgradeState,
 } from "@statekit-vue/vue";
+import { exampleHeaderCopy } from "../../lib/example-page-copy";
+import { useLocale } from "../../lib/i18n";
 
+const { locale } = useLocale();
+const headerCopy = computed(() => exampleHeaderCopy.permissionsAndUpgrade[locale.value]);
 const accessRequestPending = ref(false);
 const accessRequestsSent = ref(4);
 const sessionRefreshPending = ref(false);
@@ -73,19 +77,20 @@ const reviewNotes = computed(() => [
     <section class="demo-shell">
       <div class="demo-shell__header">
         <div>
-          <p class="demo-kicker">Example</p>
-          <h1>Permissions And Upgrade</h1>
+          <p class="demo-kicker">{{ headerCopy.kicker }}</p>
+          <h1>{{ headerCopy.title }}</h1>
           <p>
-            A finance workspace rewritten around the current CTA surface:
-            request-access actions, session recovery with a loading label,
-            upgrade decisions, disabled quota controls, and an inline role
-            restriction inside a live review queue.
+            {{ headerCopy.description }}
           </p>
         </div>
         <div class="demo-chip-row" aria-label="Scenario tags">
-          <span class="demo-chip">Request access</span>
-          <span class="demo-chip">Loading recovery</span>
-          <span class="demo-chip">Disabled quota CTA</span>
+          <span
+            v-for="chip in headerCopy.chips"
+            :key="chip"
+            class="demo-chip"
+          >
+            {{ chip }}
+          </span>
         </div>
       </div>
 

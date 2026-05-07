@@ -1,7 +1,14 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { RouterLink, RouterView, useRoute } from "vue-router";
+import { localeLabels, siteCopy } from "./lib/copy";
+import { stripLocaleFromPath, supportedLocales, useLocale } from "./lib/i18n";
 
 const route = useRoute();
+const { locale, routePath, localizedCurrentPath } = useLocale();
+
+const copy = computed(() => siteCopy[locale.value]);
+const plainPath = computed(() => stripLocaleFromPath(route.path));
 </script>
 
 <template>
@@ -14,42 +21,56 @@ const route = useRoute();
 
     <header class="site-header">
       <div class="site-header__inner">
-        <RouterLink class="site-brand" to="/">
+        <RouterLink class="site-brand" :to="routePath('/')">
           <span class="site-brand__mark">SK</span>
           <span class="site-brand__text">
             <strong>StateKit</strong>
-            <small>Vue State Docs</small>
+            <small>{{ copy.brandSubtext }}</small>
           </span>
         </RouterLink>
 
-        <nav class="site-nav" aria-label="Primary">
+        <nav class="site-nav" :aria-label="copy.navAriaLabel">
           <RouterLink
             class="site-nav__link"
-            :class="{ 'is-active': route.path === '/' }"
-            to="/"
+            :class="{ 'is-active': plainPath === '/' }"
+            :to="routePath('/')"
           >
-            Home
+            {{ copy.homeNav }}
           </RouterLink>
           <RouterLink
             class="site-nav__link"
-            :class="{ 'is-active': route.path.startsWith('/recipes') }"
-            to="/recipes"
+            :class="{ 'is-active': plainPath.startsWith('/recipes') }"
+            :to="routePath('/recipes')"
           >
-            Recipes
+            {{ copy.recipesNav }}
           </RouterLink>
           <RouterLink
             class="site-nav__link"
-            :class="{ 'is-active': route.path.startsWith('/examples') }"
-            to="/examples/onboarding-activation"
+            :class="{ 'is-active': plainPath.startsWith('/examples') }"
+            :to="routePath('/examples/onboarding-activation')"
           >
-            Examples
+            {{ copy.examplesNav }}
           </RouterLink>
           <RouterLink
             class="site-nav__link"
-            :class="{ 'is-active': route.path.startsWith('/docs') }"
-            to="/docs/installation"
+            :class="{ 'is-active': plainPath.startsWith('/docs') }"
+            :to="routePath('/docs/installation')"
           >
-            Install
+            {{ copy.installNav }}
+          </RouterLink>
+
+          <span class="site-nav__divider" aria-hidden="true" />
+
+          <RouterLink
+            v-for="item in supportedLocales"
+            :key="item"
+            class="site-nav__link site-nav__link--language"
+            :class="{ 'is-active': locale === item }"
+            :aria-current="locale === item ? 'page' : undefined"
+            :aria-label="`${copy.languageAriaLabel}: ${localeLabels[item]}`"
+            :to="localizedCurrentPath(item)"
+          >
+            {{ localeLabels[item] }}
           </RouterLink>
         </nav>
       </div>

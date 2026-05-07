@@ -2,7 +2,13 @@
 import { computed } from "vue";
 import { RouterLink } from "vue-router";
 import { allRecipeDocs, featuredRecipeDocs } from "../lib/recipe-docs";
-import { examplePages, homeCopy } from "../lib/copy";
+import { categoryCopy, examplePages, homeCopy } from "../lib/copy";
+import { useLocale } from "../lib/i18n";
+import { getRecipeCopy } from "../lib/recipe-i18n";
+
+const { locale, routePath } = useLocale();
+const copy = computed(() => homeCopy[locale.value]);
+const categoriesCopy = computed(() => categoryCopy[locale.value]);
 
 const categoryOrder = [
   "empty",
@@ -17,44 +23,35 @@ const categoryOrder = [
 const heroStats = computed(() => [
   {
     value: String(categoryOrder.length).padStart(2, "0"),
-    label: "Category entries",
+    label: copy.value.heroStats.categories,
   },
   {
     value: String(allRecipeDocs.length).padStart(2, "0"),
-    label: "Preset recipes",
+    label: copy.value.heroStats.recipes,
   },
   {
     value: String(featuredRecipeDocs.length).padStart(2, "0"),
-    label: "Launch recipes",
+    label: copy.value.heroStats.featured,
   },
 ]);
-
-const categoryDescriptions = {
-  empty:
-    "Blank collections and empty searches that still need a clear next move.",
-  onboarding:
-    "First-run activation and setup moments before the team reaches the real workspace.",
-  loading:
-    "Processing states that keep structure visible while the system catches up.",
-  error:
-    "Recoverable and blocking failures with the right amount of urgency.",
-  permission:
-    "Role limits, access gates, and expired sessions that read as product rules.",
-  upgrade:
-    "Plan and quota moments that guide a decision without turning into marketing.",
-  success:
-    "Completion states that close the loop and point to the next useful action.",
-} as const;
 
 const categoryOverview = computed(() =>
   categoryOrder.map((category) => ({
     category,
+    label: categoriesCopy.value.labels[category],
     count: allRecipeDocs.filter((recipe) => recipe.category === category).length,
-    description: categoryDescriptions[category],
+    description: categoriesCopy.value.descriptions[category],
   })),
 );
 
-const featuredRecipes = computed(() => featuredRecipeDocs.slice(0, 4));
+const featuredRecipes = computed(() =>
+  featuredRecipeDocs.slice(0, 4).map((recipe) => ({
+    ...recipe,
+    localized: getRecipeCopy(recipe, locale.value),
+  })),
+);
+
+const localizedExamplePages = computed(() => examplePages[locale.value]);
 </script>
 
 <template>
@@ -62,21 +59,25 @@ const featuredRecipes = computed(() => featuredRecipeDocs.slice(0, 4));
     <section class="home-hero">
       <div class="home-hero__inner">
         <div class="home-hero__copy">
-          <p class="eyebrow eyebrow--light">{{ homeCopy.eyebrow }}</p>
+          <p class="eyebrow eyebrow--light">{{ copy.eyebrow }}</p>
           <p class="hero-brand">StateKit</p>
-          <h1>{{ homeCopy.title }}</h1>
-          <p class="hero-lead">{{ homeCopy.description }}</p>
+          <h1>{{ copy.title }}</h1>
+          <p class="hero-lead">{{ copy.description }}</p>
 
           <div class="button-row button-row--hero">
-            <RouterLink class="button-link" data-testid="home-browse-recipes" to="/recipes">
-              Browse recipes
+            <RouterLink
+              class="button-link"
+              data-testid="home-browse-recipes"
+              :to="routePath('/recipes')"
+            >
+              {{ copy.browseRecipes }}
             </RouterLink>
             <RouterLink
               class="button-link is-secondary"
               data-testid="home-open-installation"
-              to="/docs/installation"
+              :to="routePath('/docs/installation')"
             >
-              Installation
+              {{ copy.installation }}
             </RouterLink>
           </div>
 
@@ -90,17 +91,16 @@ const featuredRecipes = computed(() => featuredRecipeDocs.slice(0, 4));
 
         <div class="hero-blueprint" aria-hidden="true">
           <div class="hero-blueprint__core">
-            <p>Shared metadata</p>
-            <strong>Category-first components</strong>
+            <p>{{ copy.blueprintEyebrow }}</p>
+            <strong>{{ copy.blueprintTitle }}</strong>
             <span>
-              Seven public entries backed by {{ allRecipeDocs.length }} preset recipes across empty,
-              onboarding, loading, error, permission, upgrade, and success.
+              {{ copy.blueprintDescription }}
             </span>
           </div>
 
           <div class="hero-blueprint__bands">
             <span v-for="item in categoryOverview" :key="item.category">
-              {{ item.category }} · {{ item.count }} recipes
+              {{ item.label }} · {{ item.count }} {{ copy.recipeCount }}
             </span>
           </div>
 
@@ -110,7 +110,7 @@ const featuredRecipes = computed(() => featuredRecipeDocs.slice(0, 4));
             class="hero-blueprint__note"
           >
             <p>{{ recipe.category }}</p>
-            <strong>{{ recipe.defaults.title }}</strong>
+            <strong>{{ recipe.localized.defaults.title }}</strong>
           </div>
         </div>
       </div>
@@ -119,12 +119,11 @@ const featuredRecipes = computed(() => featuredRecipeDocs.slice(0, 4));
     <section class="section-card section-card--soft">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">Coverage</p>
-          <h2>State categories that belong in the product surface</h2>
+          <p class="eyebrow">{{ copy.coverageEyebrow }}</p>
+          <h2>{{ copy.coverageTitle }}</h2>
         </div>
         <p>
-          Every public category entry shares the same core API, while each
-          recipe keeps its own default tone, placement, and user expectation.
+          {{ copy.coverageDescription }}
         </p>
       </div>
 
@@ -135,7 +134,7 @@ const featuredRecipes = computed(() => featuredRecipeDocs.slice(0, 4));
           class="category-panel"
         >
           <span class="meta-pill">{{ item.count }} recipes</span>
-          <h3>{{ item.category }}</h3>
+          <h3>{{ item.label }}</h3>
           <p>{{ item.description }}</p>
         </article>
       </div>
@@ -144,12 +143,11 @@ const featuredRecipes = computed(() => featuredRecipeDocs.slice(0, 4));
     <section class="section-card section-card--outline">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">Launch Set</p>
-          <h2>Priority recipes teams usually need first</h2>
+          <p class="eyebrow">{{ copy.launchEyebrow }}</p>
+          <h2>{{ copy.launchTitle }}</h2>
         </div>
         <p>
-          These are the launch-tier recipes already marked as featured in the
-          shared metadata layer.
+          {{ copy.launchDescription }}
         </p>
       </div>
 
@@ -159,16 +157,16 @@ const featuredRecipes = computed(() => featuredRecipeDocs.slice(0, 4));
           :key="recipe.id"
           class="feature-item"
           :data-testid="`home-featured-recipe-${recipe.slug}`"
-          :to="'/recipes/' + recipe.slug"
+          :to="routePath('/recipes/' + recipe.slug)"
         >
           <div class="feature-item__copy">
             <p class="block-card__eyebrow">{{ recipe.category }}</p>
-            <h3>{{ recipe.defaults.title }}</h3>
-            <p>{{ recipe.summary }}</p>
+            <h3>{{ recipe.localized.defaults.title }}</h3>
+            <p>{{ recipe.localized.summary }}</p>
           </div>
 
           <div class="feature-item__meta">
-            <span class="meta-pill">Entry {{ recipe.componentName }}</span>
+            <span class="meta-pill">{{ copy.entryLabel }} {{ recipe.componentName }}</span>
             <span class="meta-pill">{{ recipe.supportedLayouts.join(" · ") }}</span>
           </div>
         </RouterLink>
@@ -178,22 +176,21 @@ const featuredRecipes = computed(() => featuredRecipeDocs.slice(0, 4));
     <section class="section-card section-card--outline">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">Examples</p>
-          <h2>See the recipes inside workflows, not just in isolation</h2>
+          <p class="eyebrow">{{ copy.examplesEyebrow }}</p>
+          <h2>{{ copy.examplesTitle }}</h2>
         </div>
         <p>
-          Each example page places states back into a believable SaaS surface so
-          spacing, hierarchy, and CTA tone can be evaluated in context.
+          {{ copy.examplesDescription }}
         </p>
       </div>
 
       <div class="editorial-grid">
         <RouterLink
-          v-for="(page, index) in examplePages"
+          v-for="(page, index) in localizedExamplePages"
           :key="page.href"
           class="editorial-link"
           :data-testid="`home-example-link-${page.href.split('/').pop()}`"
-          :to="page.href"
+          :to="routePath(page.href)"
         >
           <span class="editorial-link__index">0{{ index + 1 }}</span>
           <div>
@@ -206,11 +203,15 @@ const featuredRecipes = computed(() => featuredRecipeDocs.slice(0, 4));
 
     <section class="section-card section-card--cta">
       <div>
-        <p class="eyebrow">Start</p>
-        <h2>Install one category component, then rewrite only the product copy.</h2>
+        <p class="eyebrow">{{ copy.startEyebrow }}</p>
+        <h2>{{ copy.startTitle }}</h2>
       </div>
-      <RouterLink class="button-link" data-testid="home-bottom-installation" to="/docs/installation">
-        Open installation guide
+      <RouterLink
+        class="button-link"
+        data-testid="home-bottom-installation"
+        :to="routePath('/docs/installation')"
+      >
+        {{ copy.bottomInstallation }}
       </RouterLink>
     </section>
   </section>

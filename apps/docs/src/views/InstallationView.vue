@@ -1,73 +1,48 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { RouterLink } from "vue-router";
 import {
   installSnippet,
   minimalUsageSnippet,
   stylesheetSnippet,
 } from "../lib/example-code";
-import { installationSteps } from "../lib/copy";
+import { installationCopy, installationSteps } from "../lib/copy";
+import { useLocale } from "../lib/i18n";
 
-const installSections = [
-  {
-    index: "01",
-    title: "Add the package",
-    description:
-      "Install the Vue package in the consuming Vue 3.4+ workspace where the category-first state components will render.",
-    code: installSnippet,
-  },
-  {
-    index: "02",
-    title: "Import the shared stylesheet",
-    description:
-      "Pull in the default StateKit styles once in your app entry or page shell so every recipe rendered through a category component keeps the same shell and tone system.",
-    code: stylesheetSnippet,
-  },
-  {
-    index: "03",
-    title: "Render one category component and override the copy",
-    description:
-      "After the stylesheet is in place, import one category component and change only the title, description, and CTA content that matters to the product flow.",
-    code: minimalUsageSnippet,
-  },
-];
-
-const overrideOptions = [
-  "Title and description copy",
-  "Tone, density, and layout",
-  "Primary and secondary CTA labels",
-];
-
-const consistencyNotes = [
-  "Shared metadata drives the default tone, density, layout, and action structure.",
-  "Every category entry keeps the same underlying API, while recipes only change the defaults.",
-  "The standard UI install only needs `@statekit-vue/vue`; add `@statekit-vue/shared` only for metadata and shared types.",
-];
+const { locale, routePath } = useLocale();
+const copy = computed(() => installationCopy[locale.value]);
+const checklist = computed(() => installationSteps[locale.value]);
+const installSections = computed(() =>
+  copy.value.sections.map((section, index) => ({
+    ...section,
+    code: [installSnippet, stylesheetSnippet, minimalUsageSnippet][index],
+  })),
+);
 </script>
 
 <template>
   <section class="page-stack">
     <section class="page-hero">
       <div>
-        <p class="eyebrow">Installation</p>
-        <h1>Start with one category component, then change only the product language.</h1>
+        <p class="eyebrow">{{ copy.eyebrow }}</p>
+        <h1>{{ copy.title }}</h1>
         <p>
-          StateKit is meant to be low-decision: one package, one stylesheet, and
-          seven public entries on top of shared recipe defaults.
+          {{ copy.description }}
         </p>
       </div>
 
       <div class="page-hero__facts">
         <div class="page-fact">
           <strong>01</strong>
-          <span>Package</span>
+          <span>{{ copy.facts.package }}</span>
         </div>
         <div class="page-fact">
           <strong>02</strong>
-          <span>Stylesheet</span>
+          <span>{{ copy.facts.stylesheet }}</span>
         </div>
         <div class="page-fact">
           <strong>03</strong>
-          <span>Setup steps</span>
+          <span>{{ copy.facts.steps }}</span>
         </div>
       </div>
     </section>
@@ -93,28 +68,32 @@ const consistencyNotes = [
 
       <aside class="install-sidebar">
         <section class="detail-section">
-          <h2>What you customize</h2>
+          <h2>{{ copy.customizeTitle }}</h2>
           <ul class="detail-bullet-list">
-            <li v-for="item in overrideOptions" :key="item">{{ item }}</li>
+            <li v-for="item in copy.customizeOptions" :key="item">{{ item }}</li>
           </ul>
         </section>
 
         <section class="detail-section">
-          <h2>What stays consistent</h2>
+          <h2>{{ copy.consistencyTitle }}</h2>
           <ul class="detail-bullet-list">
-            <li v-for="item in consistencyNotes" :key="item">{{ item }}</li>
+            <li v-for="item in copy.consistencyNotes" :key="item">{{ item }}</li>
           </ul>
         </section>
 
         <section class="detail-section">
-          <h2>Implementation checklist</h2>
+          <h2>{{ copy.checklistTitle }}</h2>
           <ol class="plain-list">
-            <li v-for="step in installationSteps" :key="step">{{ step }}</li>
+            <li v-for="step in checklist" :key="step">{{ step }}</li>
           </ol>
         </section>
 
-        <RouterLink class="button-link" data-testid="installation-browse-recipes" to="/recipes">
-          Browse preset recipes
+        <RouterLink
+          class="button-link"
+          data-testid="installation-browse-recipes"
+          :to="routePath('/recipes')"
+        >
+          {{ copy.browseRecipes }}
         </RouterLink>
       </aside>
     </section>

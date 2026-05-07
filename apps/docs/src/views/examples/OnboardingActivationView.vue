@@ -2,7 +2,11 @@
 import { computed, ref } from "vue";
 import { RouterLink } from "vue-router";
 import { OnboardingState } from "@statekit-vue/vue";
+import { exampleHeaderCopy } from "../../lib/example-page-copy";
+import { useLocale } from "../../lib/i18n";
 
+const { locale, routePath } = useLocale();
+const headerCopy = computed(() => exampleHeaderCopy.onboardingActivation[locale.value]);
 const onboardingVisible = ref(true);
 const setupPending = ref(false);
 const setupRuns = ref(0);
@@ -96,21 +100,26 @@ const onboardingNotes = computed(() => [
     <section class="demo-shell">
       <div class="demo-shell__header">
         <div>
-          <p class="demo-kicker">Example</p>
-          <h1>Onboarding Activation</h1>
+          <p class="demo-kicker">{{ headerCopy.kicker }}</p>
+          <h1>{{ headerCopy.title }}</h1>
           <p>
-            A dedicated onboarding hero that is intentionally louder than the
-            empty-state family: rich media, layered action groups, and a skip
-            path controlled entirely by the host page.
+            {{ headerCopy.description }}
           </p>
         </div>
 
         <div class="demo-chip-row" aria-label="Scenario tags">
-          <span class="demo-chip">Hero layout</span>
-          <span class="demo-chip">Rich media slot</span>
-          <span class="demo-chip">Controlled lifecycle</span>
-          <RouterLink class="button-link is-secondary" to="/examples/admin-empty-states">
-            Compare with empty states
+          <span
+            v-for="chip in headerCopy.chips"
+            :key="chip"
+            class="demo-chip"
+          >
+            {{ chip }}
+          </span>
+          <RouterLink
+            class="button-link is-secondary"
+            :to="routePath('/examples/admin-empty-states')"
+          >
+            {{ headerCopy.compareLink }}
           </RouterLink>
         </div>
       </div>
@@ -132,12 +141,10 @@ const onboardingNotes = computed(() => [
       <section class="demo-surface demo-surface--span-2">
         <div class="demo-surface__header">
           <div>
-            <p class="demo-surface__eyebrow">Recipe family</p>
-            <h2>Use one onboarding entry across multiple first-run moments</h2>
+            <p class="demo-surface__eyebrow">{{ headerCopy.familyEyebrow }}</p>
+            <h2>{{ headerCopy.familyTitle }}</h2>
             <p>
-              `OnboardingState` stays as the same public entry, while the
-              recipe family shifts the message from workspace launch to team
-              invite and initial integration setup.
+              {{ headerCopy.familyDescription }}
             </p>
           </div>
         </div>
@@ -147,7 +154,7 @@ const onboardingNotes = computed(() => [
             v-for="scenario in onboardingScenarioLinks"
             :key="scenario.href"
             class="editorial-link"
-            :to="scenario.href"
+            :to="routePath(scenario.href)"
           >
             <span class="editorial-link__index">Onboarding</span>
             <div>
@@ -263,12 +270,15 @@ const onboardingNotes = computed(() => [
                 </div>
 
                 <div class="sk-onboarding-actions__secondary">
-                  <RouterLink class="sk-shell__action is-secondary" to="/docs/installation">
+                  <RouterLink
+                    class="sk-shell__action is-secondary"
+                    :to="routePath('/docs/installation')"
+                  >
                     Watch quick walkthrough
                   </RouterLink>
                   <RouterLink
                     class="sk-shell__action is-secondary"
-                    to="/recipes/onboarding-workspace-state"
+                    :to="routePath('/recipes/onboarding-workspace-state')"
                   >
                     Review recipe defaults
                   </RouterLink>
@@ -312,7 +322,10 @@ const onboardingNotes = computed(() => [
               <button class="button-link" type="button" @click="reopenOnboarding">
                 Show onboarding again
               </button>
-              <RouterLink class="button-link is-secondary" to="/examples/admin-empty-states">
+              <RouterLink
+                class="button-link is-secondary"
+                :to="routePath('/examples/admin-empty-states')"
+              >
                 Back to empty-state examples
               </RouterLink>
             </div>
@@ -404,10 +417,16 @@ const onboardingNotes = computed(() => [
               </div>
 
               <div class="sk-onboarding-actions__secondary">
-                <RouterLink class="sk-shell__action is-secondary" to="/recipes/onboarding-members-state">
+                <RouterLink
+                  class="sk-shell__action is-secondary"
+                  :to="routePath('/recipes/onboarding-members-state')"
+                >
                   Review recipe defaults
                 </RouterLink>
-                <RouterLink class="sk-shell__action is-secondary" to="/examples/admin-empty-states">
+                <RouterLink
+                  class="sk-shell__action is-secondary"
+                  :to="routePath('/examples/admin-empty-states')"
+                >
                   Compare post-setup empty state
                 </RouterLink>
               </div>
@@ -495,7 +514,10 @@ const onboardingNotes = computed(() => [
             <div class="sk-onboarding-actions">
               <div class="sk-onboarding-actions__group">
                 <button class="sk-shell__action" type="button">Connect integration</button>
-                <RouterLink class="sk-shell__action is-secondary" to="/docs/installation">
+                <RouterLink
+                  class="sk-shell__action is-secondary"
+                  :to="routePath('/docs/installation')"
+                >
                   View setup guide
                 </RouterLink>
               </div>
@@ -503,11 +525,14 @@ const onboardingNotes = computed(() => [
               <div class="sk-onboarding-actions__secondary">
                 <RouterLink
                   class="sk-shell__action is-secondary"
-                  to="/recipes/onboarding-integration-state"
+                  :to="routePath('/recipes/onboarding-integration-state')"
                 >
                   Review recipe defaults
                 </RouterLink>
-                <RouterLink class="sk-shell__action is-secondary" to="/recipes/onboarding-members-state">
+                <RouterLink
+                  class="sk-shell__action is-secondary"
+                  :to="routePath('/recipes/onboarding-members-state')"
+                >
                   Back to teammate invite recipe
                 </RouterLink>
               </div>

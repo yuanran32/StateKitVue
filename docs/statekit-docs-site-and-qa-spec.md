@@ -17,16 +17,38 @@
 | 路径 | 页面职责 |
 | --- | --- |
 | `/` | 首页，介绍 StateKit 定位、展示 featured blocks、跳转示例页 |
+| `/zh-CN` | 中文首页，与英文首页共享同一套信息架构和 shared 元数据 |
 | `/recipes` | Recipe 总览列表页 |
+| `/zh-CN/recipes` | 中文 Recipe 总览列表页 |
 | `/recipes/:slug` | 单个 Recipe 详情页，包含 live preview、元数据、代码片段 |
+| `/zh-CN/recipes/:slug` | 中文 Recipe 详情页，slug、组件名、priority、布局等 API 事实保持原样，面向读者的说明和示例文案本地化 |
 | `/blocks` | 兼容重定向 → `/recipes` |
 | `/blocks/:slug` | 兼容重定向 → `/recipes/:slug` |
+| `/zh-CN/blocks` | 兼容重定向 → `/zh-CN/recipes` |
+| `/zh-CN/blocks/:slug` | 兼容重定向 → `/zh-CN/recipes/:slug` |
 | `/docs/installation` | 安装与最小接入说明 |
+| `/zh-CN/docs/installation` | 中文安装与最小接入说明 |
 | `/examples` | 重定向 → `/examples/onboarding-activation` |
+| `/zh-CN/examples` | 重定向 → `/zh-CN/examples/onboarding-activation` |
 | `/examples/onboarding-activation` | 示例页，展示完整 first-run 激活流程（workspace → 成员 → 集成 → 完成） |
+| `/zh-CN/examples/onboarding-activation` | 中文示例页入口，保留同一交互示例 |
 | `/examples/admin-empty-states` | 示例页，展示 empty 与 onboarding 状态在后台中的组合 |
+| `/zh-CN/examples/admin-empty-states` | 中文示例页入口，保留同一交互示例 |
 | `/examples/permissions-and-upgrade` | 示例页，展示权限与升级场景 |
+| `/zh-CN/examples/permissions-and-upgrade` | 中文示例页入口，保留同一交互示例 |
 | `/examples/task-flow` | 示例页，展示 loading / error / success 流程串联 |
+| `/zh-CN/examples/task-flow` | 中文示例页入口，保留同一交互示例 |
+
+## 本地化约束
+
+docs 站当前支持英文默认路径和 `/zh-CN` 中文路径。维护时注意：
+
+- 英文路径保持原有 URL，不加 locale 前缀。
+- 中文路径统一加 `/zh-CN` 前缀。
+- 语言切换应尽量保留当前页面，例如 `/recipes/page-error-state` ↔ `/zh-CN/recipes/page-error-state`。
+- Recipe 的 `slug`、`componentName`、`priority`、`tone`、`density`、`layout` 等 API 事实不翻译；面向读者的标题、摘要、说明、CTA 示例可以本地化。
+- 中文 recipe 展示层来自 docs 本地本地化映射，不改变 `packages/shared/src/block-meta.ts` 中的真实默认 metadata。
+- 示例页中文版本优先保证入口标题、说明、导航和关键路径本地化；交互示例可以继续保留英文业务文案，避免把组件库默认英文 API 与中文展示层混淆。
 
 ## 页面要求
 

@@ -14,14 +14,14 @@
   需要同步的文件：`README.md`、`README.zh-CN.md`、`packages/vue/README.md`、`docs/statekit-ai-handoff-brief.md`、`docs/statekit-launch-checklist.md`、`docs/交接/CHANGELOG.md`、`docs/交接/剩餘部分.md`。
   完成标准：对外文档、交接文档和最终版本号口径一致，不再出现"代码里已经有 onboarding，但发布说明还像 0.2.1 patch 尾声"的割裂表述。
 
-- [ ] 补一次围绕 `onboarding` 的人工 QA
+- [x] 补一次围绕 `onboarding` 的人工 QA
   目标：确认新增的第 7 类状态在 docs 和 example 里是"语义更清楚"，而不是只是多了一个名字。
   重点页面：`/`、`/recipes`、`/recipes/onboarding-workspace-state`、`/recipes/onboarding-members-state`、`/recipes/onboarding-integration-state`、`/examples/onboarding-activation`、`/examples/admin-empty-states`、`examples/vite-vue-admin`。
   重点宽度：`1700`、`1440`、`1280`、`1160`、`1000`、`760`。
   检查点：`OnboardingState` 的图形、标题节奏、CTA 层级、移动端按钮堆叠、以及它和 `EmptyState` / `first-project` 的语义边界是否足够清楚。
   完成标准：从首页到详情页到示例页，用户能直观看出"onboarding 不是 generic empty state"。
 
-- [ ] 在最终发版前重新跑完整发布链路
+- [x] 在最终发版前重新跑完整发布链路
   命令：
   ```bash
   npm run typecheck

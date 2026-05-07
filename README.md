@@ -8,9 +8,10 @@ StateKit focuses on the product states teams rebuild constantly but rarely stand
 
 ## Example
 
-<img src="./Eg/image1.png" alt="eg" />
-
 <img src="./Eg/image.png" alt="eg" />
+<img src="./Eg/image1.png" alt="eg" />
+<img src="./Eg/image2.png" alt="eg" />
+<img src="./Eg/image3.png" alt="eg" />
 
 ## Online Docs
 
